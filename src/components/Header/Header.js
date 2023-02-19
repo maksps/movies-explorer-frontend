@@ -1,11 +1,5 @@
 import React from "react";
-import './header.css';
-import './__nav/header__nav.css';
-import './__link/header__link.css';
-import './__btn/header__btn.css';
-import './__logo/header__logo.css';
-
-
+import './Header.css';
 
 function Header({ logo }) {
     return (

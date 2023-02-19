@@ -2,7 +2,8 @@ import React from "react";
 import logoHeader from '../../images/header-logo.svg';
 import Header from '../Header/Header.js';
 import Footer from '../Footer/Footer.js';
-import Search from '../Search/Search.js';
+import SearchForm from '../SearchForm/SearchForm.js';
+import Main from '../Main/Main.js'
 
 function App() {
   
@@ -14,7 +15,8 @@ function App() {
         logo={logoHeader}
         />
         
-        <Search/>
+        <SearchForm/>
+        <Main/>
 
 
         

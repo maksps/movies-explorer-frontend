@@ -1,0 +1,44 @@
+.aboutProject {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;
+    min-height: 608px;
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.aboutProject__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    align-self: start;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #000000;
+}
+
+.aboutProject__columns {
+    display: flex;
+    flex-direction: row;
+}
+
+.aboutProject__diagram {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {}
+
+.column__title {}
+
+.column_text {}
+
+.diagram-element {}
+
+.diagram-element__time {}
+
+.diagram-element__text {}
