@@ -1,0 +1,9 @@
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    margin-left: 70px;
+    margin-right: 70px;
+    margin-top: 79px;
+    margin-bottom: 20px;
+}
