@@ -1,0 +1,20 @@
+.movies {
+    display: flex;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    max-width: 1140px;
+    flex-direction: column;
+    margin-left: 70px;
+    margin-right: 70px;
+    align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .movies {
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+}
+
+
+

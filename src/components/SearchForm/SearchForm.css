@@ -1,3 +1,129 @@
 .searchForm {
+    display: flex;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    justify-content: space-between;
+    width: 100%;
+    height: 72px;
+    background-color: #F9F9F9;
+    border-radius: 9px;
+    /* margin: auto; */
+    margin-top: 70px;
+    margin-bottom: 69px;
+
+
+}
+
+.searchForm__form {
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+
+
+}
+
+.searchForm__input {
+
+    background-image: url('../../images/search-icon.svg');
+    background-repeat: no-repeat;
+    background-position: left 28px center;
+    padding-left: 63px;
+    width: 100%;
+    background-size: 15px 15px;
+    box-sizing: border-box;
+    height: 100%;
+    border: none;
+    background-color: #F9F9F9;
+}
+
+.searchForm__btn {
+    background-image: url('../../images/search-btn.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 34px;
+    height: 34px;
+    background-size: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.searchForm__btn:hover {
+
+    opacity: 0.8;
     
+}
+
+.searchForm__checkbox {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #000000;
+    align-items: center;
+}
+
+.searchForm__checkbox-unvisible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(0 0 0 0);
+}
+.searchForm__checkbox-visible{
+    display: flex;
+    flex-direction: row;
+    border-left: 1px solid #E8E8E8;
+    padding-left: 29px;
+    min-height: 40px;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.searchForm__checkbox-visible:hover{
+   opacity: 0.8;
+}
+
+
+
+.searchForm__checkbox-visible-btn {
+    display: flex;
+    width: 36px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #A0A0A0;
+
+}
+
+
+.searchForm__checkbox-visible-btn_toggle {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    margin: auto 2px auto 2px;
+    background-color: white;
+}
+
+.searchForm__checkbox-text {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #A0A0A0;
+    margin-left: 16px;
+}
+
+.searchForm__checkbox-unvisible:checked+ div .searchForm__checkbox-visible-btn {
+    background-color: #2BE080;
+    justify-content: flex-end;
+}
+
+.searchForm__checkbox-unvisible:checked+ div .searchForm__checkbox-text {
+    color: #000000;
 }

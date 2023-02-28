@@ -18,15 +18,15 @@ function AboutProject() {
                 </div>
             </div>
             <div className="aboutProject__diagram">
-                <div className="diagram-element">
-                    <p className="diagram-element__time">
+                <div className="diagram-element diagram-element_clolor_green">
+                    <p className="diagram-element__time diagram-element__time_clolor_green">
                         1 неделя
                     </p>
                     <p className="diagram-element__text">Back-end</p>
                 </div>
-                <div className="diagram-element">
-                    <p className="diagram-element__time">
-                        1 неделя
+                <div className="diagram-element diagram-element_clolor_white">
+                    <p className="diagram-element__time diagram-element__time_clolor_white">
+                        4 недели
                     </p>
                     <p className="diagram-element__text">Back-end</p>
                 </div>
