@@ -1,1 +1,18 @@
-.savedMovies{}
+.savedMovies {
+    display: flex;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    max-width: 1140px;
+    flex-direction: column;
+    margin-left: 70px;
+    margin-right: 70px;
+    align-items: center;
+    padding-bottom: 80px;
+}
+
+@media screen and (max-width: 1024px) {
+    .savedMovies {
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+}

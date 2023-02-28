@@ -11,8 +11,6 @@ const movie = {
 }
 
 
-
-
 function Movies() {
     
     return (
@@ -23,6 +21,7 @@ function Movies() {
                 btnImagechecked={ btnImagechecked}
                 btnImage={ btnImage}
             />
+            <button className="movies__btn-more">Ещё</button>
         </div>
     )
 

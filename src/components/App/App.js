@@ -6,10 +6,11 @@ import Header from '../Header/Header.js';
 import HeaderMovie from '../HeaderMovie/HeaderMovie.js';
 import Footer from '../Footer/Footer.js';
 
-import Main from '../Main/Main.js'
-import Movies from '../Movies/Movies.js'
-import Preloader from '../Preloader/Preloader.js'
-import SavedMovies from '../SavedMovies/SavedMovies.js'
+import Main from '../Main/Main.js';
+import Movies from '../Movies/Movies.js';
+import Preloader from '../Preloader/Preloader.js';
+import SavedMovies from '../SavedMovies/SavedMovies.js';
+import Profile from '../Profile/Profile';
 
 function App() {
 
@@ -27,14 +28,14 @@ function App() {
           </>
         } />
 
-        <Route path="/movie" element={
+        <Route path="/movies" element={
           <>
             <HeaderMovie
               logo={logoHeader}
             />
-            
+
             {/* <Preloader/> */}
-            <Movies/>
+            <Movies />
 
             <Footer />
           </>
@@ -45,8 +46,17 @@ function App() {
             <HeaderMovie
               logo={logoHeader}
             />
-            <SavedMovies/>
+            <SavedMovies />
             <Footer />
+          </>
+        } />
+
+        <Route path="/profile" element={
+          <>
+            <HeaderMovie
+              logo={logoHeader}
+            />
+            <Profile/>
           </>
         } />
 
@@ -59,3 +69,5 @@ function App() {
 }
 
 export default App;
+
+

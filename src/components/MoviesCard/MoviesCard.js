@@ -24,7 +24,7 @@ function MoviesCard(card) {
                     <h3 className="moviesCard__title">{card.movie.name}</h3>
                     <span className="moviesCard__time">{card.movie.duration}</span>
                 </div>
-                <button onClick={handleClick} className="moviesCard__btn moviesCard__btn_checked"><img className="moviesCard__btn-image" src={isChecked ? card.btnImage : card.btnImagechecked} alt="кнопка" /></button>
+                <button onClick={handleClick} className="moviesCard__btn moviesCard__btn_checked" type="button"><img className="moviesCard__btn-image" src={isChecked ? card.btnImage : card.btnImagechecked} alt="кнопка" /></button>
             </div>
             <img className="moviesCard__sreenshot" src={card.movie.image} alt="скриншот фильма" />
 
