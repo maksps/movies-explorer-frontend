@@ -11,6 +11,9 @@ import Movies from '../Movies/Movies.js';
 import Preloader from '../Preloader/Preloader.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 import Profile from '../Profile/Profile';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
+import Error from '../Error/Error';
 
 function App() {
 
@@ -33,10 +36,8 @@ function App() {
             <HeaderMovie
               logo={logoHeader}
             />
-
             {/* <Preloader/> */}
             <Movies />
-
             <Footer />
           </>
         } />
@@ -56,10 +57,24 @@ function App() {
             <HeaderMovie
               logo={logoHeader}
             />
-            <Profile/>
+            <Profile />
           </>
         } />
 
+        <Route path="/signin" element={
+          <Login />
+        } />
+
+        <Route path="/signup" element={
+          <Register />
+        } />
+
+        <Route path="/error" element={
+          <Error
+            errorCode={404}
+            errorMessage={'Страница не найдена'}
+          />
+        } />
 
 
 
