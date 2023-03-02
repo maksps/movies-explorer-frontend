@@ -38,3 +38,10 @@
     opacity: 0.8;
 }
 
+@media screen and (max-width: 460px) {
+    .movies {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+

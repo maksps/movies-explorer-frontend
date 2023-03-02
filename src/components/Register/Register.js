@@ -8,7 +8,7 @@ function Register() {
                 titleText={'Добро пожаловать!'}
                 btnSubmitText={'Зарегистрироваться'}
                 navText={'Уже зарегистрированы?'}
-                navLink={'#'}
+                navLink={'/signin'}
                 navLinkText={'Войти'}>
                 <label className="inputLaebel">
                     <span className="inputLabel__title">Имя</span>

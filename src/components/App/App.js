@@ -14,6 +14,7 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Error from '../Error/Error';
+import NavMobile from '../NavMobile/NavMobile'
 
 function App() {
 
@@ -75,8 +76,6 @@ function App() {
             errorMessage={'Страница не найдена'}
           />
         } />
-
-
 
       </Routes>
     </div>

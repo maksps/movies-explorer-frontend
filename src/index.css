@@ -8,10 +8,7 @@
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    max-width: 1280px;
-    background-color: #FFFFFF;
-    margin: auto;
+    text-rendering: optimizeLegibility;    
 }
 
 .page {
@@ -19,5 +16,9 @@
     flex-direction: column;
     position: relative;
     margin: auto;
-    width: 100%
+    min-width: 280px;
+    max-width: 1280px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background-color: #FFFFFF;
 }

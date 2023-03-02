@@ -8,7 +8,7 @@
     padding-top: 80px;
     grid-template-columns: repeat(3, 1fr);;
     justify-items: center;
-    row-gap: 44px;
+    row-gap: 30px;
     column-gap: 24px;
 }
 
@@ -17,6 +17,7 @@
     .moviesCardList {
       grid-template-columns: repeat(2, 1fr);
       max-width: fit-content;
+      padding-top: 122px;
     }
 }
 

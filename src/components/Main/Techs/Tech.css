@@ -10,12 +10,14 @@
     min-height: 608px;
     padding-left: 70px;
     padding-right: 70px;
+    background-color: #F5F5F5;
 }
 
 .tech__title {
     display: flex;
     font-weight: 400;
     align-self: flex-start;
+    margin-bottom: 23px;
 }
 
 .tech__container {
@@ -59,8 +61,6 @@
 
 .table__cell {
     display: flex;
-    width: 90px;
-    height: 60px;
     background-color: #E8E8E8;
     border-radius: 10px;
 }
@@ -71,4 +71,86 @@
     line-height: 17px;
     letter-spacing: -0.04em;
     margin: auto;
+}
+
+@media screen and (max-width: 900px) {
+    .table {
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(1, 57px);
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 769px) {
+    .tech {
+        min-height: 567px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    .tech__subtitle {
+        padding-top: 80px;
+    }
+
+    .tech__text {
+        font-size: 12px;
+        line-height: 18px;
+        padding-top: 22px;
+    }
+
+    .table {
+        padding-top: 83px;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(1, 57px);
+        
+    }
+
+    .table__cell {
+        
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .table {
+        grid-template-columns: repeat(4, 84px);
+        grid-template-rows: repeat(2, 57px);
+        justify-content: center;
+    }
+
+}
+
+
+@media screen and (max-width: 460px) {
+    .tech {
+        justify-content: flex-start;
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-top: 36px;
+        padding-bottom: 13px;
+    }
+
+    .tech__title {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 28px;
+    }
+
+    .tech__subtitle {
+        font-size: 30px;
+        line-height: 36px;
+        padding-top: 60px;
+    }
+
+    .tech__text {
+        font-size: 11px;
+        line-height: 16px;
+        padding-top: 24px;
+    }
+
+    .table {
+        padding-top: 42px;
+        grid-template-columns: repeat(2, 84px);
+        grid-template-rows: repeat(4, 57px);
+    }
 }

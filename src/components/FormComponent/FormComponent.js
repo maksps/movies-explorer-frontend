@@ -1,10 +1,12 @@
 import React from "react";
 import './FormComponent.css';
 import logo from '../../images/header-logo.svg';
+import { Link } from 'react-router-dom';
 
 function formСomponent({ titleText, btnSubmitText, navText, navLink, navLinkText, children }) {
     return (
         <div className="formComponent">
+            <div className="formComponent__container">
             <img className="formComponent__logo" src={logo} alt="логотип" />
             <h2 className="formComponent__title">{titleText}</h2>
             <form className="formComponent__form">
@@ -24,9 +26,10 @@ function formСomponent({ titleText, btnSubmitText, navText, navLink, navLinkTex
 
             <nav className="formComponent__nav">
                 <span className="formComponent__nav-text">{navText}
-                    <a className="formComponent__nav-link" href={navLink}>{navLinkText}</a>
+                    <Link className="formComponent__nav-link" to={navLink}>{navLinkText}</Link>
                 </span>
             </nav>
+            </div>
         </div>
     )
 }

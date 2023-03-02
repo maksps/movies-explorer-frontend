@@ -91,5 +91,5 @@
 .moviesCard__sreenshot {
     width: 100%;
     max-width: 364px;
-    min-height: 203px;
+    /* min-height: 203px; */
 }

@@ -44,6 +44,36 @@ function MoviesCardList({ movie, btnImage, btnImagechecked }) {
                 btnImagechecked={btnImage}
                 btnImage={btnImagechecked}
             />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
+             <MoviesCard
+                movie={movie}
+                btnImagechecked={btnImage}
+                btnImage={btnImagechecked}
+            />
 
 
 

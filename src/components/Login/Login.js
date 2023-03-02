@@ -4,15 +4,15 @@ import FormComponent from '../FormComponent/FormComponent.js';
 
 function Login() {
     return (
-        // <div className="login">
+        
             <FormComponent
                 titleText={'Рады видеть!'}
                 btnSubmitText={'Войти'}
                 navText={'Ещё не зарегистрированы?'}
-                navLink={'#'}
+                navLink={'/signup'}
                 navLinkText={'Регистрация'}
             />
-        // </div>
+        
     )
 }
 
