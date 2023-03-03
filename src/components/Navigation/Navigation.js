@@ -44,7 +44,7 @@ function Navigation() {
 
                         <button className="navigation__btn">Аккаунт</button>
                     </nav>
-                    <button class="popup__btn-exit" onClick={handleClick} type="button" aria-label="выход"></button>
+                    <button className="popup__btn-exit" onClick={handleClick} type="button" aria-label="выход"></button>
                 </div>
             </div>
         </>

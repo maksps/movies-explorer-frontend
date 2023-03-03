@@ -23,7 +23,7 @@ function formСomponent({ titleText, btnSubmitText, navText, navLink, navLinkTex
                             <span className="inputLabel__input-error">Что-то пошлоdddddddddddddddddd fdfdf dfdgfg</span>
                         </label>
                     </div>
-                    <button class="formComponent__btn-save" type="submit">{btnSubmitText}</button>
+                    <button className="formComponent__btn-save" type="submit">{btnSubmitText}</button>
                 </form>
 
                 <nav className="formComponent__nav">

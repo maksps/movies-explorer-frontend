@@ -3,18 +3,22 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.js'
 
 function MoviesCardList({ movie, btnImage, btnImagechecked }) {
-
+    
     return (
         <div className="moviesCardList">
-            {/* {
-                movies.map((movie) => (
+            {
+                movie.map((movi) => (
+                    // console.log(movi.image.url)
                     <MoviesCard
-                        movie={movie}
+                        movie={movi}
+                        btnImagechecked={btnImage}
+                        btnImage={btnImagechecked}
+                        key={movi.id}
                     />
                 ))
-            } */}
+            }
 
-            <MoviesCard
+            {/* <MoviesCard
                 movie={movie}
                 btnImagechecked={btnImage}
                 btnImage={btnImagechecked}
@@ -73,7 +77,7 @@ function MoviesCardList({ movie, btnImage, btnImagechecked }) {
                 movie={movie}
                 btnImagechecked={btnImage}
                 btnImage={btnImagechecked}
-            />
+            /> */}
 
 
 
