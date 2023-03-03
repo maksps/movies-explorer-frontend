@@ -10,7 +10,7 @@ function MoviesCardList({ movie, btnImage, btnImagechecked }) {
                 movies.map((movie) => (
                     <MoviesCard
                         movie={movie}
-                    />
+                    /
                 ))
             } */}
 
