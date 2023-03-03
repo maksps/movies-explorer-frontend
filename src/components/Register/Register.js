@@ -10,7 +10,7 @@ function Register() {
                 navText={'Уже зарегистрированы?'}
                 navLink={'/signin'}
                 navLinkText={'Войти'}>
-                <label className="inputLaebel">
+                <label className="inputLabel">
                     <span className="inputLabel__title">Имя</span>
                     <input className="inputLabel__input" type="text" placeholder="Имя" minLength="2" maxLength="40" required autoComplete="off"></input>
                     <span className="inputLabel__input-error"></span>

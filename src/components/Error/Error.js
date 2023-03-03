@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import './Error.css';
 
 
@@ -9,7 +10,7 @@ function Error({ errorCode, errorMessage }) {
                 <h2 className="error__code">{errorCode}</h2>
                 <h4 className="error__message">{errorMessage}</h4>
             </div>
-            <a className="error__link" href="#">Назад</a>
+            <Link className="error__link" to="/">Назад</Link>
 
         </div>
     )

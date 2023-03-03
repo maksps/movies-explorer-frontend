@@ -77,6 +77,13 @@ function App() {
           />
         } />
 
+        <Route path="/*" element={
+          <Error
+            errorCode={404}
+            errorMessage={'Страница не найдена'}
+          />
+        } />
+
       </Routes>
     </div>
   );

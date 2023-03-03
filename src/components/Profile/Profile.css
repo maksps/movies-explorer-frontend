@@ -83,8 +83,6 @@
 }
 
 
-
-
 .inputField__input::-webkit-input-placeholder {
     font-weight: 400;
     font-size: 11px;
@@ -114,7 +112,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    padding-top: 220px;
+    padding-top: 200px;
 
 }
 
@@ -147,12 +145,18 @@
         padding-bottom: 269px;
         padding-top: 236px;
     }
+    .profile__title{
+        padding-bottom: 80px;
+    }
+    .profile__nav{
+        padding-top: 190px;
+    }
 
 }
 
 @media screen and (max-width: 460px) {
     .profile {
-        padding-top: 88px;
+        padding-top: 68px;
         padding-bottom: 40px;
         
     }
@@ -161,12 +165,12 @@
         max-width: 260px;
     }
     .profile__title{
-        padding-bottom: 80px;
+        padding-bottom: 64px;
     }
 
     .profile__nav {
         
-        padding-top: 379px;
+        padding-top: 358px;
     
     }
 

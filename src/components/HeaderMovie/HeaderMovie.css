@@ -37,5 +37,8 @@
 }
 
 @media screen and (max-width: 460px) {
-  
+  .headerMovie__container{
+    margin-left: 14px;
+    margin-right: 14px;
+  }
 }
