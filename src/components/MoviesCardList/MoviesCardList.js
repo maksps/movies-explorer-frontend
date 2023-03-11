@@ -2,89 +2,28 @@ import React from "react";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.js'
 
-function MoviesCardList({ movie, btnImage, btnImagechecked }) {
+function MoviesCardList({ movies, btnImage, btnImagechecked, nomberCards, onClickBtn, isSavedMovies }) {
     
+   
     return (
-        <div className="moviesCardList">
+        <div className="moviesCardList"> 
             {
-                movie.map((movi) => (
-                    // console.log(movi.image.url)
+                
+                movies.slice(0, nomberCards).map((movie) => (
+                    
                     <MoviesCard
-                        movie={movi}
+                        movie={movie}
                         btnImagechecked={btnImage}
                         btnImage={btnImagechecked}
-                        key={movi.id}
+                        key={movie.id}
+                        onClickBtn={onClickBtn}
+                        isSavedMovies={isSavedMovies}
                     />
                 ))
             }
 
-            {/* <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-            <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-            <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-            <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-            <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-            <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            />
-             <MoviesCard
-                movie={movie}
-                btnImagechecked={btnImage}
-                btnImage={btnImagechecked}
-            /> */}
-
-
-
-
         </div>
     )
-
 }
 
 export default MoviesCardList;

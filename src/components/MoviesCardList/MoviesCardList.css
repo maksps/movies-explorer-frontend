@@ -7,7 +7,7 @@
     border-top: 1px solid #E8E8E8;
     padding-top: 80px;
     grid-template-columns: repeat(3, 1fr);;
-    justify-items: center;
+    justify-items: stretch;
     row-gap: 30px;
     column-gap: 24px;
 }
@@ -21,7 +21,7 @@
     }
 }
 
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 560px) {
     .moviesCardList {
       grid-template-columns: repeat(1, 1fr);
       max-width: fit-content;

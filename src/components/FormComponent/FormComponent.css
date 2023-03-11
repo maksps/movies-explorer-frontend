@@ -57,6 +57,12 @@
     flex-wrap: nowrap;
 }
 
+.inputLabel_unvisible {
+    display: none;
+}
+
+
+
 .inputLabel__title {
     font-weight: 400;
     font-size: 10px;
