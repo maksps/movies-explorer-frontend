@@ -2,7 +2,7 @@ import React from "react";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.js'
 
-function MoviesCardList({ movies, btnImage, btnImagechecked, nomberCards, onClickBtn, isSavedMovies }) {
+function MoviesCardList({ movies, btnImage, btnImagechecked, nomberCards, onClickBtn, isSavedMovies, savedMovies }) {
     
    
     return (
@@ -18,6 +18,7 @@ function MoviesCardList({ movies, btnImage, btnImagechecked, nomberCards, onClic
                         key={movie.id}
                         onClickBtn={onClickBtn}
                         isSavedMovies={isSavedMovies}
+                        savedMovies={savedMovies}
                     />
                 ))
             }

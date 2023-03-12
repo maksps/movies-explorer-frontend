@@ -96,4 +96,9 @@
     height: 203px;
     overflow: hidden;
     object-fit: cover;
+    cursor: pointer;
+}
+
+.moviesCard__sreenshot:hover {
+    opacity: 0.8;
 }

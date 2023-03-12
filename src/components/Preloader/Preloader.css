@@ -40,6 +40,8 @@
 }
 
 .preloader {
+    visibility: hidden;
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +49,13 @@
     height: 100%;
     z-index: 10;
     padding: 20px;
+    background-color: rgba(94, 94, 94, 0.1);
 }
+
+.preloader-visible {
+    visibility: visible;
+}
+
 
 .preloader__container {
     width: 100px;

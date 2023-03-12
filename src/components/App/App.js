@@ -26,6 +26,7 @@ function App() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({}); // данные текущего пользователя
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isPreloaderVisible, setPreloaderVisible] = useState(false);
 
 
 
@@ -48,9 +49,10 @@ function App() {
     }
   }, [loggedIn]);
 
-  
+
 
   function registrate({ name, email, password }) {
+    setPreloaderVisible(true);
     auth.signUp({ name, email, password }).then((res) => {
       // setCurrentUser({ id: res._id, email: res.email, name: res.name }); // зачем тут это ??????????
       // setLoggedIn(true);
@@ -68,11 +70,13 @@ function App() {
       setLoggedIn(false);
       // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
       // setInfoTooltipPopupOpen(true);
+    }).finally(() => {
+      setPreloaderVisible(false)
     })
   };
 
   function login({ email, password }) {
-
+    setPreloaderVisible(true);
     auth.signIn({ email, password, }).then((res) => {
 
       if (res.token) {
@@ -93,6 +97,8 @@ function App() {
       // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
       // setInfoTooltipPopupOpen(true);
       setLoggedIn(false);
+    }).finally(() => {
+      setPreloaderVisible(false)
     })
   };
 
@@ -137,7 +143,7 @@ function App() {
   };
 
   function handleChangeProfile({ name, email }) {
-
+    setPreloaderVisible(true);
     mainApi.editProfile({ name, email }).then((res) => {
       setCurrentUser({ id: res._id, email: res.email, name: res.name });
       console.log("Данные пользователя обновлены!");
@@ -146,6 +152,8 @@ function App() {
       console.log("Чтото пошло не так")
       // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
       // setInfoTooltipPopupOpen(true);
+    }).finally(() => {
+      setPreloaderVisible(false)
     })
   }
 
@@ -181,9 +189,16 @@ function App() {
                 <HeaderMovie
                   logo={logoHeader}
                 />
-                {/* <Preloader/> */}
-                <Movies />
+                <Preloader
+                  isVisible={isPreloaderVisible}
+                />
+                <Movies
+                  preloaderVisible={setPreloaderVisible}
+                />
                 <Footer />
+                <Preloader
+                  isVisible={isPreloaderVisible}
+                />
               </>
             } />
 
@@ -192,8 +207,13 @@ function App() {
                 <HeaderMovie
                   logo={logoHeader}
                 />
-                <SavedMovies />
+                <SavedMovies
+                  preloaderVisible={setPreloaderVisible}
+                />
                 <Footer />
+                <Preloader
+                  isVisible={isPreloaderVisible}
+                />
               </>
             } />
 
@@ -206,19 +226,32 @@ function App() {
                   onChangeProfile={handleChangeProfile}
                   onClickEscButton={handleClickEscButton}
                 />
+                 <Preloader
+                  isVisible={isPreloaderVisible}
+                />
               </>
             } />
 
             <Route path="/signin" element={
-              <Login
-                onLogin={handleLogin}
-              />
+              <>
+                <Login
+                  onLogin={handleLogin}
+                />
+                <Preloader
+                  isVisible={isPreloaderVisible}
+                />
+              </>
             } />
 
             <Route path="/signup" element={
-              <Register
-                onRegister={handleRegistration}
-              />
+              <>
+                <Register
+                  onRegister={handleRegistration}
+                />
+                <Preloader
+                  isVisible={isPreloaderVisible}
+                />
+              </>
             } />
 
             <Route path="/error" element={

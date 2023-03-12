@@ -2,7 +2,7 @@ import React from "react";
 import './Register.css';
 import FormComponent from '../FormComponent/FormComponent.js';
 
-function Register({onRegister}) {
+function Register({onRegister }) {
 
     return (
             <FormComponent

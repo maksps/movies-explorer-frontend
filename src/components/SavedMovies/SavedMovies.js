@@ -15,7 +15,7 @@ import mainApi from "../../utils/MainApi";
 
 
 
-function SavedMovies() {
+function SavedMovies({preloaderVisible}) {
     const loggedIn = useContext(LoggedInContext);
     // const currentUser = useContext(CurrentUserContext);
     const [movies, setMovies] = useState([]);
@@ -33,11 +33,15 @@ function SavedMovies() {
 
     useEffect(() => {
         if (loggedIn) {
+            preloaderVisible(true);
             mainApi.getMovies()
             .then((data) => {
                 setMovies(data);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)).
+            finally(()=> {
+                preloaderVisible(false);
+            });
         }
       }, [loggedIn]);
     
@@ -66,12 +70,6 @@ function SavedMovies() {
         };
     }, [screenWidth]);
 
-
-
-    const handleClickAddCards = () => {
-        setNumberCards(numberCards + defineNumberCards())
-
-    };
 
     const defineNumberCards = () => {
         if (numberCards === 0) {
@@ -109,10 +107,8 @@ function SavedMovies() {
     }
 
     function handleSearch(data) {
-        let movies = []
        if(!checkempty(data)) {
-        mainApi.getMovies().then(res => {
-            movies = res; 
+        mainApi.getMovies().then(movies => {
             const resultFilter = movies.filter(item =>item.nameRU.toLowerCase().includes(data.toLowerCase())); 
             setMovies(resultFilter)
         });
@@ -121,7 +117,6 @@ function SavedMovies() {
     }
 
     function handleDeleteCard ( movie ) {
-        console.log(movie._id);
         mainApi.deleteMovie(movie._id).then(() => {
             console.log("Фильм удален");
             setMovies((state) => state.filter((c) => c._id !== movie._id));
