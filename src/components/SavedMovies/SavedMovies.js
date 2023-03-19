@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import SearchForm from '../SearchForm/SearchForm.js';
@@ -8,50 +8,34 @@ import btnImage from '../../images/icon-movie-delete.svg';
 import mainApi from "../../utils/MainApi";
 
 
-function SavedMovies({preloaderVisible}) {
+function SavedMovies({ preloaderVisible }) {
     const loggedIn = useContext(LoggedInContext);
-    // const currentUser = useContext(CurrentUserContext);
     const [movies, setMovies] = useState([]);
     const [numberCards, setNumberCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(window.innerWidth);
     const [isCheckShotMovie, setCheckShotMovie] = useState(false);
+    const [infoMessage, setInfoMessage] = useState('');
 
 
     useEffect(() => {
-        // movieApi.getMovies().then(data => {
-        //     setMovies(data)
-        // });
+;
         setscreenWidth(window.innerWidth);
-        setNumberCards(defineNumberCards())
+        setNumberCards(defineNumberCards());
     }, []);
 
     useEffect(() => {
         if (loggedIn) {
             preloaderVisible(true);
             mainApi.getMovies()
-            .then((data) => {
-                setMovies(data);
-            })
-            .catch((err) => console.log(err)).
-            finally(()=> {
-                preloaderVisible(false);
-            });
+                .then((data) => {
+                    setMovies(data);
+                })
+                .catch((err) => console.log(err)).
+                finally(() => {
+                    preloaderVisible(false);
+                });
         }
-      }, [loggedIn]);
-    
-
-
-    function handleSearch(data) {
-        let movies = []
-       if(!checkempty(data)) {
-        mainApi.getMovies().then(res => {
-            movies = res; 
-            const resultFilter = movies.filter(item =>item.nameRU.toLowerCase().includes(data.toLowerCase())); 
-            setMovies(resultFilter)
-        });
-       }
-            
-    }
+    }, [loggedIn]);
 
 
     useEffect(() => {
@@ -91,8 +75,7 @@ function SavedMovies({preloaderVisible}) {
 
     function checkempty(form) {
         if (form == null ||
-            // /^\s*$/.test(form) ||
-            form.length == 0) {
+            form.length === 0) {
             alert("Поле не может быть пустым");
             return true;
         } else {
@@ -100,37 +83,63 @@ function SavedMovies({preloaderVisible}) {
         }
     }
 
-    function handleSearch(data) {
-       if(!checkempty(data)) {
-        mainApi.getMovies().then(movies => {
-            const resultFilter = movies.filter(item =>item.nameRU.toLowerCase().includes(data.toLowerCase())); 
-            setMovies(resultFilter)
-        });
-       }
-            
-    }
 
-    function handleDeleteCard ( movie ) {
+
+    const handleSearch = (data) => {
+        setNumberCards(0);
+        if (!checkempty(data)) {
+            preloaderVisible(true);
+            mainApi.getMovies()
+                .then((movies) => {
+                    if (isCheckShotMovie) {
+                        const shortMovies = movies.filter(item => item.duration <= 40);
+                        const resultFilter = shortMovies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
+                        if (resultFilter.length === 0) {
+                            setInfoMessage('Ничего не найдено')
+                        }
+                        else { setInfoMessage('') }
+                        setMovies(resultFilter);
+                        return
+                    }
+                    const resultFilter = movies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
+                    if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
+                    else { setInfoMessage('') }
+                    setMovies(resultFilter);
+                })
+                .catch((err) => console.log(err)).
+                finally(() => {
+                    preloaderVisible(false);
+                });
+
+        }
+    };
+
+
+
+
+
+    function handleDeleteCard(movie) {
         mainApi.deleteMovie(movie._id).then(() => {
             console.log("Фильм удален");
             setMovies((state) => state.filter((c) => c._id !== movie._id));
         }).catch((err) => console.log(err))
     };
-    
+
 
     return (
         <div className="savedMovies">
-            <SearchForm 
-            onSubmit={handleSearch}
-            onCheckboxCheked={setCheckShotMovie}
+            <SearchForm
+                onSubmit={handleSearch}
+                onCheckboxCheked={setCheckShotMovie}
             />
             <MoviesCardList
-               movies={movies}
-               btnImagechecked={btnImagechecked}
-               btnImage={btnImage}
-               nomberCards={numberCards}
-               onClickBtn={handleDeleteCard}
-               isSavedMovies={true}
+                movies={movies}
+                btnImagechecked={btnImagechecked}
+                btnImage={btnImage}
+                nomberCards={numberCards}
+                onClickBtn={handleDeleteCard}
+                isSavedMovies={true}
+                infoMessage={infoMessage}
             />
         </div>
     )

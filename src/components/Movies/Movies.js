@@ -6,7 +6,6 @@ import btnImagechecked from '../../images/icon-movie-checked.svg';
 import btnImage from '../../images/icon-movie.svg';
 import movieApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import { useNavigate } from 'react-router-dom';
 const imgUrl = 'https://api.nomoreparties.co/';
 
 

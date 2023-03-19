@@ -4,17 +4,17 @@ import logo from '../../images/header-logo.svg';
 import { Link } from 'react-router-dom';
 
 function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText, onSubmit, onNameInputVisible }) {
-    const [formState, setFormState] = useState({ name: '', email: '', password: '', nameValid: onNameInputVisible? false: true, emailValid: false, passwordValid: false})
+    const [formState, setFormState] = useState({ name: '', email: '', password: '', nameValid: onNameInputVisible ? false : true, emailValid: false, passwordValid: false })
     const [validationMessage, setValidationMessage] = useState({ name: '', email: '', password: '' });
     const [onButtonDisable, SetButtonnDisable] = useState(true);
 
 
     useEffect(() => {
-        if (formState.nameValid && formState.emailValid && formState.passwordValid){
+        if (formState.nameValid && formState.emailValid && formState.passwordValid) {
             SetButtonnDisable(false)
         } else {
             SetButtonnDisable(true)
-        }             
+        }
     }, [formState]);
 
 
@@ -27,20 +27,14 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
 
     const handleInput = useCallback((e) => {
         const { name, value, validationMessage, validity } = e.target;
-        setFormState({ ...formState, [name]: value, [`${name}Valid`]: validity.valid});
+        setFormState({ ...formState, [name]: value, [`${name}Valid`]: validity.valid });
         setValidationMessage({ [name]: validationMessage });
-    },[formState])
+    }, [formState])
 
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(e.target.validity.valid);
         onSubmit(
-            // {
-            //     password: password,
-            //     email: email,
-            //     name: name
-            // }
             formState
         );
     }

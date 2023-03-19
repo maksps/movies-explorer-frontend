@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import ProtectedRoute from "../ProtectedRoute.js";
 
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
@@ -75,7 +76,6 @@ function App() {
       setTooltipContent(err.message);
       setInfoTooltippOpen(true);
       setLoggedIn(false);
-      // navigate("/error");
     }).finally(() => {
       setPreloaderVisible(false)
     })
@@ -110,8 +110,6 @@ function App() {
       const token = localStorage.getItem('jwt');
       auth.checkToken(token).then((res) => {
         if (res.message === 'Необходимо авторизоваться') {
-          // setTooltipContent({ text: res.message, logo: logoError });
-          // setInfoTooltipPopupOpen(true);
           setLoggedIn(false);
           navigate("/signin");
           return
@@ -122,9 +120,6 @@ function App() {
         navigate("/profile");
       }).catch((err) => {
         setLoggedIn(false);
-        // navigate("/error");
-        // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
-        // setInfoTooltipPopupOpen(true);
       })
     }
     return
@@ -132,11 +127,6 @@ function App() {
   useEffect(() => {
     cbTokenCheck();
   }, []);
-
-
-
-
-
 
   function handleRegistration({ name, email, password }) {
     registrate({ name, email, password });
@@ -154,8 +144,6 @@ function App() {
     }).catch((err) => {
       console.log(err);
       console.log("Чтото пошло не так")
-      // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
-      // setInfoTooltipPopupOpen(true);
       navigate("/error")
     }).finally(() => {
       setPreloaderVisible(false)
