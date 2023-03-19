@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import './FormComponent.css';
 import logo from '../../images/header-logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText, onSubmit, onNameInputVisible }) {
     const [formState, setFormState] = useState({ name: '', email: '', password: '', nameValid: onNameInputVisible ? false : true, emailValid: false, passwordValid: false })
     const [validationMessage, setValidationMessage] = useState({ name: '', email: '', password: '' });
     const [onButtonDisable, SetButtonnDisable] = useState(true);
+    const history = useHistory();
 
 
     useEffect(() => {
@@ -42,7 +43,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
     return (
         <div className="formComponent">
             <div className="formComponent__container">
-                <img className="formComponent__logo" src={logo} alt="логотип" />
+                <img className="formComponent__logo" src={logo} alt="логотип"  />
                 <h2 className="formComponent__title">{titleText}</h2>
                 <form className="formComponent__form" onSubmit={handleSubmit} noValidate>
                     <div className="input-container">

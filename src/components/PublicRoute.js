@@ -1,15 +1,15 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
-function ProtectedRoute({ loggedIn, children }) {
+function PublicRoute({ loggedIn, children }) {
     return (
         <Route>
             {
-                () => loggedIn === true ? children : <Redirect to="/signin" />
+                () => loggedIn === false ? children : <Redirect to="/profile" />
             }
         </Route>
 
     )
 }
 
-export default ProtectedRoute
+export default PublicRoute

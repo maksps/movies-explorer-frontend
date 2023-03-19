@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import SearchForm from '../SearchForm/SearchForm.js';
-import { LoggedInContext } from '../../contexts/LoggedInContext';
 import btnImagechecked from '../../images/icon-movie-delete.svg';
 import btnImage from '../../images/icon-movie-delete.svg';
 import mainApi from "../../utils/MainApi";
 
 
-function SavedMovies({ preloaderVisible }) {
-    const loggedIn = useContext(LoggedInContext);
+function SavedMovies({ preloaderVisible, loggedIn  }) {
     const [movies, setMovies] = useState([]);
     const [numberCards, setNumberCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(window.innerWidth);

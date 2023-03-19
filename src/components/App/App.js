@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, useNavigate } from 'react-router-dom';
+// import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute.js";
+import PublicRoute from "../PublicRoute.js";
 
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { LoggedInContext } from '../../contexts/LoggedInContext';
 import logoHeader from '../../images/header-logo.svg';
 import Header from '../Header/Header.js';
 import HeaderMovie from '../HeaderMovie/HeaderMovie.js';
 import Footer from '../Footer/Footer.js';
-
 import Main from '../Main/Main.js';
 import Movies from '../Movies/Movies.js';
 import Preloader from '../Preloader/Preloader.js';
@@ -18,22 +18,42 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Error from '../Error/Error';
-import NavMobile from '../NavMobile/NavMobile';
 import auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 
 function App() {
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({}); // данные текущего пользователя
+  const history = useHistory();
+  const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isPreloaderVisible, setPreloaderVisible] = useState(false);
-  // const [error, setError] = useState({number: 'Упс', message:'Что-то пошло не так! Попробуйте ещё раз.'})
   const [isInfoTooltipOpen, setInfoTooltippOpen] = useState(false);
   const [tooltipContent, setTooltipContent] = useState('')
 
+  useEffect(() => {
+    cbTokenCheck();
+  }, []);
 
+  function cbTokenCheck() {
+    if (localStorage.getItem('jwt')) {
+      const token = localStorage.getItem('jwt');
+      auth.checkToken(token).then((res) => {
+        if (res.message === 'Необходимо авторизоваться') {
+          setLoggedIn(false);
+          history.push("/signin");
+          return
+        }
+        setCurrentUser({ id: res._id, email: res.email, name: res.name });
+        setLoggedIn(true);
+        // history.push("/profile");
+      }).catch((err) => {
+        setLoggedIn(false);
+      })
+    }
+    return
+  };
+ 
 
 
 
@@ -50,7 +70,6 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
-          // setError({number:err, message:err})
         })
     }
   }, [loggedIn]);
@@ -61,7 +80,7 @@ function App() {
     setPreloaderVisible(true);
     auth.signUp({ name, email, password }).then((res) => {
       if (res) {
-        navigate("/signin");
+        history.push("/signin");
         console.log('Вы успешно зарегистрировались');
       } else {
         console.log(res);
@@ -89,7 +108,7 @@ function App() {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
-        navigate("/profile");
+        history.push("/profile");
       } else {
         setTooltipContent("Что-то пошло не так!");
         setInfoTooltippOpen(true);
@@ -105,28 +124,7 @@ function App() {
     })
   };
 
-  function cbTokenCheck() {
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
-      auth.checkToken(token).then((res) => {
-        if (res.message === 'Необходимо авторизоваться') {
-          setLoggedIn(false);
-          navigate("/signin");
-          return
-        }
-        setCurrentUser({ id: res._id, email: res.email, name: res.name });
-        setLoggedIn(true);
 
-        navigate("/profile");
-      }).catch((err) => {
-        setLoggedIn(false);
-      })
-    }
-    return
-  };
-  useEffect(() => {
-    cbTokenCheck();
-  }, []);
 
   function handleRegistration({ name, email, password }) {
     registrate({ name, email, password });
@@ -144,7 +142,8 @@ function App() {
     }).catch((err) => {
       console.log(err);
       console.log("Чтото пошло не так")
-      navigate("/error")
+      setTooltipContent(err.message);
+      setInfoTooltippOpen(true);
     }).finally(() => {
       setPreloaderVisible(false)
     })
@@ -153,7 +152,7 @@ function App() {
   function handleClickEscButton() {
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    navigate("/signin");
+    history.push("/signin");
 
   }
 
@@ -169,9 +168,8 @@ function App() {
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
-        <LoggedInContext.Provider value={loggedIn}>
-          <Routes>
-            <Route path="/" element={
+          <Switch>
+            <Route exact path="/">
               <>
                 <Header
                   logo={logoHeader}
@@ -179,9 +177,10 @@ function App() {
                 <Main />
                 <Footer />
               </>
-            } />
+            </Route>
 
-            <Route path="/movies" element={
+            <ProtectedRoute path="/movies" loggedIn={loggedIn}>
+
               <>
                 <HeaderMovie
                   logo={logoHeader}
@@ -197,21 +196,22 @@ function App() {
                   isVisible={isPreloaderVisible}
                 />
               </>
-            } />
+            </ProtectedRoute>
 
-            <Route path="/saved-movies" element={
+            <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
               <>
                 <HeaderMovie
                   logo={logoHeader}
                 />
                 <SavedMovies
                   preloaderVisible={setPreloaderVisible}
+                  loggedIn={loggedIn}
                 />
                 <Footer />
               </>
-            } />
+            </ProtectedRoute>
 
-            <Route path="/profile" element={
+            <ProtectedRoute path="/profile" loggedIn={loggedIn}>
               <>
                 <HeaderMovie
                   logo={logoHeader}
@@ -221,37 +221,31 @@ function App() {
                   onClickEscButton={handleClickEscButton}
                 />
               </>
-            } />
+            </ProtectedRoute>
 
-            <Route path="/signin" element={
+            <PublicRoute path="/signin" loggedIn={loggedIn}>
 
               <Login
                 onLogin={handleLogin}
               />
+            </PublicRoute>
 
-            } />
-
-            <Route path="/signup" element={
+            <PublicRoute  path="/signup" loggedIn={loggedIn}>
               <Register
                 onRegister={handleRegistration}
               />
-            } />
+            </PublicRoute>
 
-            {/* <Route path="/error" element={
-              <Error
-                errorCode={error.number}
-                errorMessage={error.message}
-              />
-            } /> */}
+            {/* path="/signup" */}
 
-            <Route path="/*" element={
+            <Route path="/*">
               <Error
                 errorCode={404}
                 errorMessage={'Страница не найдена'}
               />
-            } />
+            </Route>
 
-          </Routes>
+          </Switch>
 
           <Preloader
             isVisible={isPreloaderVisible}
@@ -260,14 +254,10 @@ function App() {
 
           <InfoTooltip
             isOpen={isInfoTooltipOpen}
-
-            //  isOpen={true}
             onClose={closeInfoTootip}
-            // logo={tooltipContent.logo}
-            text={tooltipContent}//{(loggedIn === true) ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
+            text={tooltipContent}
 
           />
-        </LoggedInContext.Provider>
       </CurrentUserContext.Provider>
     </div>
   );

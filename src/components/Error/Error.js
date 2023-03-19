@@ -1,11 +1,11 @@
 import React  from "react";
-import {  useNavigate } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 import './Error.css';
 
 
 
 function Error({ errorCode, errorMessage }) {
-    const navigate = useNavigate();
+    const history = useHistory();
     return (
         <div className="error">
             <div className="error__container">
@@ -13,7 +13,7 @@ function Error({ errorCode, errorMessage }) {
                 <h4 className="error__message">{errorMessage}</h4>
             </div>
             {/* <Link className="error__link" to="/">Назад</Link> */}
-            <button className="error__link" onClick={() => navigate(-1)}>Назад</button>
+            <button className="error__link" onClick={history.goBack}>Назад</button>
 
         </div>
     )
