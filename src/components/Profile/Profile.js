@@ -56,11 +56,6 @@ function Profile({onChangeProfile, onClickEscButton}) {
                 <button className="profile__button profile__button_type_exit" type="button" onClick={onClickEscButton}>Выйти из аккаунта</button>
             </nav>
             </form>
-            {/* <nav className="profile__nav">
-                <button className="profile__button profile__button_type_edit" type="submit">Редактировать</button>
-                <button className="profile__button profile__button_type_exit" type="button">Выйти из аккаунта</button>
-            </nav> */}
-            {/* </div> */}
         </div>
     )
 }
