@@ -6,50 +6,34 @@ import btnImagechecked from '../../images/icon-movie-checked.svg';
 import btnImage from '../../images/icon-movie.svg';
 import movieApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import Preloader from "../Preloader/Preloader";
-const imgUrl = 'https://api.nomoreparties.co/'
+import { useNavigate } from 'react-router-dom';
+const imgUrl = 'https://api.nomoreparties.co/';
 
 
 
 
 
-function Movies({preloaderVisible}) {
 
-    // const allMoviesBase = useCallback(async () => {
-    //     try {
-    //         const movies = await movieApi.getMovies();
-    //         if (movies === null) {
-    //             return console.log("ошибка");
-    //         }
-
-    //         return setMovies(movies);
-    //     } catch (e) {
-    //         return console.log(e);
-    //     }
-    // }, []);
-    // console.log(movies)
-    // allMoviesBase();
-
-    // const  getMoviesArr = async () => {
-    //     const movies = await movieApi.getMovies();
-    //     return movies
-    // }
-
+function Movies({ preloaderVisible }) {
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([])
     const [isCheckShotMovie, setCheckShotMovie] = useState(false);
-    
+    const [infoMessage, setInfoMessage] = useState('');
     const [numberCards, setNumberCards] = useState(0);
-    const [screenWidth, setscreenWidth] = useState(window.innerWidth);
+    const [numberAddCards, setNumberAddCards] = useState(0);
+    const [screenWidth, setscreenWidth] = useState(0);
+    const [showedMoviesList, setShowedMoviesList] = useState([]);
 
     useEffect(() => {
-        // movieApi.getMovies().then(data => {
-        //     setMovies(data)
-        // });
         setscreenWidth(window.innerWidth);
-        setNumberCards(defineNumberCards());
-        getSavedMovies();
+        getSavedMovies(); 
     }, []);
+
+    useEffect(() => {
+        setNumberCards(numberCards+numberAddCards);
+    }, [movies])
+
+
 
 
     useEffect(() => {
@@ -57,41 +41,52 @@ function Movies({preloaderVisible}) {
             setscreenWidth(event.target.innerWidth);
         };
         window.addEventListener('resize', handleResize);
+        defineNumberAddCards();
         return () => {
             window.removeEventListener('resize', handleResize);
         };
+
     }, [screenWidth]);
 
-
-
     const handleClickAddCards = () => {
-        setNumberCards(numberCards + defineNumberCards())
-
+        setNumberCards(numberCards + numberAddCards);
     };
 
-    const defineNumberCards = () => {
+    useEffect(() => {
+        setShowedMoviesList(movies.slice(0, numberCards));
+        defineNumberAddCards();
+    }, [numberCards])
+
+
+
+    const defineNumberAddCards = () => {
         if (numberCards === 0) {
             if (screenWidth > 769) {
-                return 12;
+                return setNumberAddCards(12);
             }
             if (screenWidth <= 769 && screenWidth > 560) {
-                return 8;
+                return setNumberAddCards(8);
             }
             else {
-                return 2;
+                return setNumberAddCards(2);
             }
         }
         else {
             if (screenWidth > 769) {
-                return 3;
+                return setNumberAddCards(3);
             }
             if (screenWidth <= 769 && screenWidth > 560) {
-                return 2;
+                return setNumberAddCards(2);
             }
             else
-                return 2;
+                return setNumberAddCards(2);
         }
     }
+
+
+
+
+
 
     function checkempty(form) {
         if (form == null ||
@@ -104,34 +99,48 @@ function Movies({preloaderVisible}) {
         }
     }
 
-    function handleSearch(data) {
+    const handleSearch = (data) => {
+
+        setNumberCards(0);
+       
         if (!checkempty(data)) {
             preloaderVisible(true);
             movieApi.getMovies().then(movies => {
+                
+
                 if (isCheckShotMovie) {
                     const shortMovies = movies.filter(item => item.duration <= 40);
                     const resultFilter = shortMovies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
+                    if (resultFilter.length === 0) {
+                        setInfoMessage('Ничего не найдено')
+                    }
+                    else { setInfoMessage('') }
                     setMovies(resultFilter);
                     return
                 }
                 const resultFilter = movies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
-                setMovies(resultFilter)
+              
+                if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
+                else { setInfoMessage('') }
+                setMovies(resultFilter);
+                
+
+
             }).catch((err) => {
                 console.log(err);
-              }).finally(()=>{
+            }).finally(() => {
                 preloaderVisible(false);
-              })
+            })
         }
     };
 
-
-
-
+   
     function handleClickBtn(data, isChecked) {
         if (!isChecked) {
             const movie = { country: data.country, director: data.director, duration: data.duration, year: data.year, description: data.description, image: `${imgUrl}${data.image.url}`, trailerLink: data.trailerLink, thumbnail: `${imgUrl}${data.image.formats.thumbnail.url}`, movieId: data.id, nameRU: data.nameRU, nameEN: data.nameEN, };
 
             mainApi.addMovie(movie).then((res) => {
+                getSavedMovies();
             }).catch((err) => console.log(err))
         }
         else {
@@ -145,17 +154,10 @@ function Movies({preloaderVisible}) {
 
     function getSavedMovies() {
         mainApi.getMovies().then(savedMovies => {
-            // console.log(savedMovies.map((movie) => (movie.movieId)))
-            // return savedMovies.map((movie) => (movie.movieId)); 
-            // setsavedMovies(savedMovies.map((movie) => (movie.movieId)))
             setSavedMovies(savedMovies);
-
-
         }).catch((err) => console.log(err))
     }
 
-    // const savedMoviesId = [];
-    
 
     return (
         <div className="movies">
@@ -164,20 +166,19 @@ function Movies({preloaderVisible}) {
                 onCheckboxCheked={setCheckShotMovie}
 
             />
-            {/* <Preloader
-            isVisible ={isPreloaderVisible}
-            /> */}
+
             <MoviesCardList
-                movies={movies}
+                movies={showedMoviesList}
                 btnImagechecked={btnImagechecked}
                 btnImage={btnImage}
-                nomberCards={numberCards}
+                // nomberCards={numberCards}
                 onClickBtn={handleClickBtn}
                 isSavedMovies={false}
                 savedMovies={savedMovies}
+                infoMessage={infoMessage}
             />
-            <button onClick={handleClickAddCards} className="movies__btn-more">Ещё</button>
-            
+            <button onClick={handleClickAddCards} className={((numberCards+1) <= movies.length)? "movies__btn-more " : "movies__btn-more movies__btn-more_unvisible"  }>Ещё</button>
+
         </div>
     )
 

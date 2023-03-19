@@ -20,6 +20,7 @@ import Error from '../Error/Error';
 import NavMobile from '../NavMobile/NavMobile';
 import auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 
 function App() {
@@ -27,6 +28,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({}); // данные текущего пользователя
   const [loggedIn, setLoggedIn] = useState(false);
   const [isPreloaderVisible, setPreloaderVisible] = useState(false);
+  // const [error, setError] = useState({number: 'Упс', message:'Что-то пошло не так! Попробуйте ещё раз.'})
+  const [isInfoTooltipOpen, setInfoTooltippOpen] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState('')
 
 
 
@@ -45,6 +49,7 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
+          // setError({number:err, message:err})
         })
     }
   }, [loggedIn]);
@@ -54,22 +59,23 @@ function App() {
   function registrate({ name, email, password }) {
     setPreloaderVisible(true);
     auth.signUp({ name, email, password }).then((res) => {
-      // setCurrentUser({ id: res._id, email: res.email, name: res.name }); // зачем тут это ??????????
-      // setLoggedIn(true);
-      navigate("/signin");
-      console.log("Вы успешно зарегистрировались!");
-      // setTooltipContent({ text: 'Вы успешно зарегистрировались!', logo: logoRegistration });
-      // setInfoTooltipPopupOpen(true);
-
-
+      if (res) {
+        navigate("/signin");
+        console.log('Вы успешно зарегистрировались');
+      } else {
+        console.log(res);
+        setTooltipContent("Что-то пошло не так!");
+        setInfoTooltippOpen(true);
+        setLoggedIn(false);
+      }
 
 
     }).catch((err) => {
-      console.log(err);
-      console.log("Чтото пошло не так")
+      console.log(err.message);
+      setTooltipContent(err.message);
+      setInfoTooltippOpen(true);
       setLoggedIn(false);
-      // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
-      // setInfoTooltipPopupOpen(true);
+      // navigate("/error");
     }).finally(() => {
       setPreloaderVisible(false)
     })
@@ -85,17 +91,14 @@ function App() {
         setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
         navigate("/profile");
       } else {
-
-        // setTooltipContent({ text: res.message, logo: logoError });
-        // setInfoTooltipPopupOpen(true);
-
+        setTooltipContent("Что-то пошло не так!");
+        setInfoTooltippOpen(true);
         setLoggedIn(false);
       }
-
     }).catch((err) => {
       console.log(err);
-      // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
-      // setInfoTooltipPopupOpen(true);
+      setTooltipContent(err.message);
+      setInfoTooltippOpen(true);
       setLoggedIn(false);
     }).finally(() => {
       setPreloaderVisible(false)
@@ -119,6 +122,7 @@ function App() {
         navigate("/profile");
       }).catch((err) => {
         setLoggedIn(false);
+        // navigate("/error");
         // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
         // setInfoTooltipPopupOpen(true);
       })
@@ -152,6 +156,7 @@ function App() {
       console.log("Чтото пошло не так")
       // setTooltipContent({ text: 'Что-то пошло не так! Попробуйте ещё раз.', logo: logoError });
       // setInfoTooltipPopupOpen(true);
+      navigate("/error")
     }).finally(() => {
       setPreloaderVisible(false)
     })
@@ -162,6 +167,10 @@ function App() {
     setLoggedIn(false);
     navigate("/signin");
 
+  }
+
+  function closeInfoTootip() {
+    setInfoTooltippOpen(false)
   }
 
 
@@ -211,9 +220,6 @@ function App() {
                   preloaderVisible={setPreloaderVisible}
                 />
                 <Footer />
-                <Preloader
-                  isVisible={isPreloaderVisible}
-                />
               </>
             } />
 
@@ -226,40 +232,29 @@ function App() {
                   onChangeProfile={handleChangeProfile}
                   onClickEscButton={handleClickEscButton}
                 />
-                 <Preloader
-                  isVisible={isPreloaderVisible}
-                />
               </>
             } />
 
             <Route path="/signin" element={
-              <>
-                <Login
-                  onLogin={handleLogin}
-                />
-                <Preloader
-                  isVisible={isPreloaderVisible}
-                />
-              </>
+
+              <Login
+                onLogin={handleLogin}
+              />
+
             } />
 
             <Route path="/signup" element={
-              <>
-                <Register
-                  onRegister={handleRegistration}
-                />
-                <Preloader
-                  isVisible={isPreloaderVisible}
-                />
-              </>
-            } />
-
-            <Route path="/error" element={
-              <Error
-                errorCode={404}
-                errorMessage={'Страница не найдена'}
+              <Register
+                onRegister={handleRegistration}
               />
             } />
+
+            {/* <Route path="/error" element={
+              <Error
+                errorCode={error.number}
+                errorMessage={error.message}
+              />
+            } /> */}
 
             <Route path="/*" element={
               <Error
@@ -269,6 +264,21 @@ function App() {
             } />
 
           </Routes>
+
+          <Preloader
+            isVisible={isPreloaderVisible}
+          />
+
+
+          <InfoTooltip
+            isOpen={isInfoTooltipOpen}
+
+            //  isOpen={true}
+            onClose={closeInfoTootip}
+            // logo={tooltipContent.logo}
+            text={tooltipContent}//{(loggedIn === true) ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
+
+          />
         </LoggedInContext.Provider>
       </CurrentUserContext.Provider>
     </div>

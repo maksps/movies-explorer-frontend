@@ -6,13 +6,6 @@ import { LoggedInContext } from '../../contexts/LoggedInContext';
 import btnImagechecked from '../../images/icon-movie-delete.svg';
 import btnImage from '../../images/icon-movie-delete.svg';
 import mainApi from "../../utils/MainApi";
-// const movie = {
-//     image: 'https://mobimg.b-cdn.net/v3/fetch/26/260e062829bc021a8ab11fb329edeac9.jpeg?w=1470&r=0.5625',
-//     name: 'Аватар',
-//     duration: '1ч 60мин'
-// }
-
-
 
 
 function SavedMovies({preloaderVisible}) {
@@ -21,6 +14,7 @@ function SavedMovies({preloaderVisible}) {
     const [movies, setMovies] = useState([]);
     const [numberCards, setNumberCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(window.innerWidth);
+    const [isCheckShotMovie, setCheckShotMovie] = useState(false);
 
 
     useEffect(() => {
@@ -127,7 +121,8 @@ function SavedMovies({preloaderVisible}) {
     return (
         <div className="savedMovies">
             <SearchForm 
-            onSubmit = {handleSearch}
+            onSubmit={handleSearch}
+            onCheckboxCheked={setCheckShotMovie}
             />
             <MoviesCardList
                movies={movies}

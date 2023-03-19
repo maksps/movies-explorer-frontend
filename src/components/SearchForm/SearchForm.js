@@ -12,36 +12,38 @@ function SearchForm({ onSubmit, onCheckboxCheked }) {
             searchFormRef.current.value
         );
     }
-    
+
     function handleChange() {
         setChecked(!checked);
         onCheckboxCheked(!checked);
-        // if (checked) {
-        //     return onCheckboxCheked(false)
-        // }
-        // else {
-        //     return onCheckboxCheked(true)  
-        // }
+        if (checked) {
+            return onCheckboxCheked(false)
+        }
+        else {
+            return onCheckboxCheked(true)
+        }
     }
-
+    
 
     return (
         <div className="searchForm">
-            <form className="searchForm__form" onSubmit={handleSubmit}  action="" method="get">
-                <input className="searchForm__input" ref={searchFormRef} name="search" placeholder="Фильм" type="search" />
-                <button className="searchForm__btn" type="submit"></button>
-            </form>
+            <div className="searchForm__container">
+                <form className="searchForm__form" onSubmit={handleSubmit} action="" method="get">
+                    <input className="searchForm__input" ref={searchFormRef} name="search" placeholder="Фильм" type="search" />
+                    <button className="searchForm__btn" type="submit"></button>
+                </form>
 
-            <label className="searchForm__checkbox">
-                <input className="searchForm__checkbox-unvisible" type="checkbox" onChange={handleChange} checked={checked} />
-                <div className="searchForm__checkbox-visible">
-                    <div className="searchForm__checkbox-visible-btn">
-                        <div className="searchForm__checkbox-visible-btn_toggle"></div>
+                <label className="searchForm__checkbox">
+                    <input className="searchForm__checkbox-unvisible" type="checkbox" onChange={handleChange} checked={checked} />
+                    <div className="searchForm__checkbox-visible">
+                        <div className="searchForm__checkbox-visible-btn">
+                            <div className="searchForm__checkbox-visible-btn_toggle"></div>
+                        </div>
+                        <span className="searchForm__checkbox-text">Короткометражки</span>
                     </div>
-                    <span className="searchForm__checkbox-text">Короткометражки</span>
-                </div>
 
-            </label>
+                </label>
+            </div>
 
         </div>
     )

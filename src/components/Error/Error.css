@@ -7,6 +7,7 @@
     align-self: center;
     margin-top: 246px;
     color: #000000;
+    
 }
 
 .error__container {
@@ -36,6 +37,9 @@
     font-size: 14px;
     line-height: 17px;
     color: #2BE080;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .error__link:hover {

@@ -4,12 +4,13 @@ class Auth {
     }
 
     _getResponseData(res) {
-        if (!res.ok) {
-            // res.json().then((data) => {console.log(data)});
-            
-            return Promise.reject(`Ошибка: ${res.status}`);
+        if (res.ok) {
+            return res.json() 
+        } else {
+            throw new Error(`Ошибка ${res.status}`);  
         }
-        return res.json()
+         
+        
     }
 
     signUp({ name, email, password }) {
@@ -19,6 +20,7 @@ class Auth {
             body: JSON.stringify({ name, email, password })
         }).then((res) => {
             return this._getResponseData(res);
+
         });
     };
 
