@@ -75,6 +75,7 @@ function SavedMovies({ preloaderVisible, loggedIn  }) {
         if (form == null ||
             form.length === 0) {
             alert("Поле не может быть пустым");
+            // setInfoMessage('Поле не может быть пустым')
             return true;
         } else {
             return false;
@@ -103,6 +104,7 @@ function SavedMovies({ preloaderVisible, loggedIn  }) {
                     if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
                     else { setInfoMessage('') }
                     setMovies(resultFilter);
+                    setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
                 })
                 .catch((err) => console.log(err)).
                 finally(() => {

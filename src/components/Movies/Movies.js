@@ -67,7 +67,7 @@ function Movies({ preloaderVisible }) {
                 return setNumberAddCards(8);
             }
             else {
-                return setNumberAddCards(2);
+                return setNumberAddCards(5);
             }
         }
         else {
@@ -127,6 +127,7 @@ function Movies({ preloaderVisible }) {
 
             }).catch((err) => {
                 console.log(err);
+                setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
             }).finally(() => {
                 preloaderVisible(false);
             })
@@ -170,7 +171,6 @@ function Movies({ preloaderVisible }) {
                 movies={showedMoviesList}
                 btnImagechecked={btnImagechecked}
                 btnImage={btnImage}
-                // nomberCards={numberCards}
                 onClickBtn={handleClickBtn}
                 isSavedMovies={false}
                 savedMovies={savedMovies}
