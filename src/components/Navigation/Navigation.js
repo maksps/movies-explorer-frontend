@@ -37,12 +37,12 @@ function Navigation() {
                 <div className="popup-container">
                     <nav className="popup-navigation">
                         <ul className="popup-navigation__list">
-                            <li className="popup-navigation__item"><Link to="/" className="popup-navigation__link" >Главная</Link></li>
-                            <li className="popup-navigation__item"><Link to="/movies" className="popup-navigation__link" >Фильмы</Link></li>
-                            <li className="popup-navigation__item"><Link to="/saved-movies" className="popup-navigation__link" >Сохраненные фильмы</Link></li>
+                            <li className="popup-navigation__item" onClick={handleClick}><Link to="/" className="popup-navigation__link" >Главная</Link></li>
+                            <li className="popup-navigation__item" onClick={handleClick}><Link to="/movies" className="popup-navigation__link" >Фильмы</Link></li>
+                            <li className="popup-navigation__item" onClick={handleClick}><Link to="/saved-movies" className="popup-navigation__link" >Сохраненные фильмы</Link></li>
                         </ul>
 
-                        <button className="navigation__btn">Аккаунт</button>
+                        <button className="navigation__btn" onClick={handleClick}><Link to="/profile" className="navigation__btn-link">Аккаунт</Link></button>
                     </nav>
                     <button className="popup__btn-exit" onClick={handleClick} type="button" aria-label="выход"></button>
                 </div>

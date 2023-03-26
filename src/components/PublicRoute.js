@@ -5,7 +5,7 @@ function PublicRoute({ loggedIn, children }) {
     return (
         <Route>
             {
-                () => loggedIn === false ? children : <Redirect to="/profile" />
+                () => loggedIn === false ? children : <Redirect to="/movies" />
             }
         </Route>
 

@@ -23,8 +23,8 @@ function Movies({ preloaderVisible }) {
     const [numberAddCards, setNumberAddCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(0);
     const [showedMoviesList, setShowedMoviesList] = useState([]);
-
-
+    
+    
     function getSavedMovies() {
         mainApi.getMovies().then(savedMovies => {
             setSavedMovies(savedMovies);
@@ -33,7 +33,7 @@ function Movies({ preloaderVisible }) {
     }
 
     useEffect(() => {
-        setNumberCards(0);
+        // setNumberCards(0);
         setscreenWidth(window.innerWidth);
         getSavedMovies();
         if (localStorage.getItem('filteredMovie')) {
@@ -46,9 +46,6 @@ function Movies({ preloaderVisible }) {
             setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
         };
     }, []);
-
-    console.log(numberCards)
-
 
     useEffect(() => {
         setNumberCards(numberCards + numberAddCards);
@@ -104,10 +101,6 @@ function Movies({ preloaderVisible }) {
                 return setNumberAddCards(2);
         }
     }
-
-
-
-
 
 
     function checkempty(form) {

@@ -5,10 +5,11 @@ class MainApi {
     }
 
     _getResponseData(res) {
-        if (!res.ok) {
-            Promise.reject(`Ошибка: ${res.status}`);
+        if (res.ok) {
+            return res.json() 
+        } else {
+            throw new Error(`Ошибка ${res.status}`);  
         }
-        return res.json()
     }
 
     getMovies() {
@@ -94,15 +95,7 @@ const mainApi = new MainApi(
     {
         // url:'http://api.maksps.nomoredomains.rocks/'
         url: 'http://localhost:3000/',
-
-        // url: 'https://mesto.nomoreparties.co/v1/cohort-50/',
-        // headers: {
-        //     authorization: '6df29fdd-ef30-40f2-9646-a62800cbaefa',
-        //     'content-type': 'application/json',
-        // },
     }
 );
 
 export default mainApi;
-
-// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VhYTQ3NDYxYzVmM2ZhOGFjYWViMjYiLCJpYXQiOjE2Nzc5NzAzNzIsImV4cCI6MTY3ODU3NTE3Mn0.8dEU_Zq2cV89A9DXBE_HlH6U9C41ee1BLteBWxbnz_M"

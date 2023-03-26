@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './MoviesCard.css';
 import mainApi from "../../utils/MainApi";
-// import btnIcon from '../../images/icon-movie.svg'
-// "../../images/icon-movie-checked.svg"
 const imgUrl = 'https://api.nomoreparties.co/';
 
 
@@ -37,11 +35,7 @@ function MoviesCard(card) {
         }
  
     }
-    // console.log(card.savedMovies)
-    // const resultFilter = card.savedMovies.filter(item => item.movieId.includes(card.movie.id));
-    // console.log(resultFilter)
-    // const resultFilter =  card.savedMovies.filter(item => item.movieId === card.movie.id);
-    // console.log(resultFilter[0]._id);
+   
    
 
     useEffect(() => {

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute.js";
 import PublicRoute from "../PublicRoute.js";
-
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import logoHeader from '../../images/header-logo.svg';
@@ -20,7 +18,7 @@ import Register from '../Register/Register';
 import Error from '../Error/Error';
 import auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
+
 
 
 function App() {
@@ -28,7 +26,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isPreloaderVisible, setPreloaderVisible] = useState(false);
-  // const [isInfoTooltipOpen, setInfoTooltippOpen] = useState(false);
   const [errMessage, setErrMessage] = useState('')
 
   useEffect(() => {
@@ -46,7 +43,6 @@ function App() {
         }
         setCurrentUser({ id: res._id, email: res.email, name: res.name });
         setLoggedIn(true);
-        // history.push("/profile");
       }).catch((err) => {
         setLoggedIn(false);
       })
@@ -79,8 +75,11 @@ function App() {
   function registrate({ name, email, password }) {
     setPreloaderVisible(true);
     auth.signUp({ name, email, password }).then((res) => {
-      if (res) {
-        history.push("/signin");
+      if (res.token) {
+        localStorage.setItem('jwt', res.token);
+        setLoggedIn(true);
+        setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
+        history.push("/movies");
         console.log('Вы успешно зарегистрировались');
       } else {
         console.log(res);
@@ -106,7 +105,7 @@ function App() {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
-        history.push("/profile");
+        history.push("/movies");
       } else {
         setErrMessage("Что-то пошло не так!");
         setLoggedIn(false);
@@ -136,7 +135,7 @@ function App() {
       setCurrentUser({ id: res._id, email: res.email, name: res.name });
       console.log("Данные пользователя обновлены!");
     }).catch((err) => {
-      console.log(err);
+      
       console.log("Чтото пошло не так")
       setErrMessage(err.message);
     }).finally(() => {
@@ -145,7 +144,6 @@ function App() {
   }
 
   function handleClickEscButton() {
-    // localStorage.removeItem('jwt');
     localStorage.clear();
     setLoggedIn(false);
     history.push("/signin");
@@ -159,9 +157,11 @@ function App() {
           <Switch>
             <Route exact path="/">
               <>
-                <Header
+                {loggedIn ?<HeaderMovie
                   logo={logoHeader}
-                />
+                /> : <Header
+                logo={logoHeader}
+              />}
                 <Main />
                 <Footer />
               </>
@@ -207,6 +207,8 @@ function App() {
                 <Profile
                   onChangeProfile={handleChangeProfile}
                   onClickEscButton={handleClickEscButton}
+                  errMessage= {errMessage}
+                setErrMessage={setErrMessage}
                 />
               </>
             </ProtectedRoute>
@@ -228,8 +230,6 @@ function App() {
               />
             </PublicRoute>
 
-            {/* path="/signup" */}
-
             <Route path="/*">
               <Error
                 errorCode={404}
@@ -242,13 +242,6 @@ function App() {
           <Preloader
             isVisible={isPreloaderVisible}
           />
-
-
-          {/* <InfoTooltip
-            isOpen={isInfoTooltipOpen}
-            onClose={closeInfoTootip}
-            // text={tooltipContent}
-          /> */}
 
       </CurrentUserContext.Provider>
     </div>

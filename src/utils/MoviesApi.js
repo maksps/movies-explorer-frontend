@@ -1,9 +1,8 @@
 class MoviesApi {
     constructor(url) {
         this._url = url;
-        // this._headers = config.headers;
     }
-   
+
 
     getMovies() {
         return fetch(this._url)
@@ -12,12 +11,11 @@ class MoviesApi {
                     Promise.reject(`Ошибка: ${res.status}`);
                 }
                 return res.json()
-                
             });
     }
 
 
-   
+
 
 
 
@@ -25,6 +23,6 @@ class MoviesApi {
 }
 
 const movieApi = new MoviesApi('https://api.nomoreparties.co/beatfilm-movies');
-  
+
 
 export default movieApi;

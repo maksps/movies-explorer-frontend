@@ -7,8 +7,8 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
     const [formState, setFormState] = useState({ name: '', email: '', password: '', nameValid: onNameInputVisible ? false : true, emailValid: false, passwordValid: false })
     const [validationMessage, setValidationMessage] = useState({ name: '', email: '', password: '' });
     const [onButtonDisable, setButtonnDisable] = useState(true);
-    
-    
+
+
 
     useEffect(() => {
         if (formState.nameValid && formState.emailValid && formState.passwordValid) {
@@ -18,7 +18,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
         }
     }, [formState]);
 
-    
+
 
 
     const handleInput = useCallback((e) => {
@@ -56,7 +56,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
                         <label className="inputLabel">
                             <span className="inputLabel__title">Пароль</span>
                             <input className="inputLabel__input" value={formState.password || ''} onChange={handleInput} type="password" name="password" placeholder="Пароль" minLength="4" autoComplete="off" required></input>
-                            <span className="inputLabel__input-error">{validationMessage.password? validationMessage.password: errMessage}</span>
+                            <span className="inputLabel__input-error">{validationMessage.password ? validationMessage.password : errMessage}</span>
                         </label>
                     </div>
                     {/* <h3 className="formComponent__errMessage">{errMessage}</h3> */}
