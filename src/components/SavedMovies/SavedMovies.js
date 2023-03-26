@@ -7,7 +7,7 @@ import btnImage from '../../images/icon-movie-delete.svg';
 import mainApi from "../../utils/MainApi";
 
 
-function SavedMovies({ preloaderVisible, loggedIn  }) {
+function SavedMovies({ preloaderVisible, loggedIn }) {
     const [movies, setMovies] = useState([]);
     const [numberCards, setNumberCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(window.innerWidth);
@@ -16,7 +16,6 @@ function SavedMovies({ preloaderVisible, loggedIn  }) {
 
 
     useEffect(() => {
-;
         setscreenWidth(window.innerWidth);
         setNumberCards(defineNumberCards());
     }, []);
@@ -74,8 +73,7 @@ function SavedMovies({ preloaderVisible, loggedIn  }) {
     function checkempty(form) {
         if (form == null ||
             form.length === 0) {
-            alert("Поле не может быть пустым");
-            // setInfoMessage('Поле не может быть пустым')
+            setInfoMessage('Нужно ввести ключевое слово')
             return true;
         } else {
             return false;
@@ -104,19 +102,17 @@ function SavedMovies({ preloaderVisible, loggedIn  }) {
                     if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
                     else { setInfoMessage('') }
                     setMovies(resultFilter);
-                    setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+
                 })
-                .catch((err) => console.log(err)).
+                .catch((err) => {
+                    console.log(err);
+                    setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+                }).
                 finally(() => {
                     preloaderVisible(false);
                 });
-
         }
     };
-
-
-
-
 
     function handleDeleteCard(movie) {
         mainApi.deleteMovie(movie._id).then(() => {

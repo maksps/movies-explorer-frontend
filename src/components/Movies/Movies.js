@@ -15,7 +15,8 @@ const imgUrl = 'https://api.nomoreparties.co/';
 
 function Movies({ preloaderVisible }) {
     const [movies, setMovies] = useState([]);
-    const [savedMovies, setSavedMovies] = useState([])
+    const [savedMovies, setSavedMovies] = useState([]);
+    const [filteredMovie, setFilteredMovie] = useState([]);
     const [isCheckShotMovie, setCheckShotMovie] = useState(false);
     const [infoMessage, setInfoMessage] = useState('');
     const [numberCards, setNumberCards] = useState(0);
@@ -23,14 +24,35 @@ function Movies({ preloaderVisible }) {
     const [screenWidth, setscreenWidth] = useState(0);
     const [showedMoviesList, setShowedMoviesList] = useState([]);
 
-    useEffect(() => {
-        setscreenWidth(window.innerWidth);
-        getSavedMovies(); 
-    }, []);
+
+    function getSavedMovies() {
+        mainApi.getMovies().then(savedMovies => {
+            setSavedMovies(savedMovies);
+            localStorage.setItem('savedMovies', JSON.stringify(savedMovies))
+        }).catch((err) => console.log(err))
+    }
 
     useEffect(() => {
-        setNumberCards(numberCards+numberAddCards);
-    }, [movies])
+        setNumberCards(0);
+        setscreenWidth(window.innerWidth);
+        getSavedMovies();
+        if (localStorage.getItem('filteredMovie')) {
+            setFilteredMovie(JSON.parse(localStorage.getItem('filteredMovie')));
+        };
+        if (localStorage.getItem('movies')) {
+            setMovies(JSON.parse(localStorage.getItem('movies')));
+        };
+        if (localStorage.getItem('savedMovies')) {
+            setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
+        };
+    }, []);
+
+    console.log(numberCards)
+
+
+    useEffect(() => {
+        setNumberCards(numberCards + numberAddCards);
+    }, [filteredMovie])
 
 
 
@@ -52,7 +74,8 @@ function Movies({ preloaderVisible }) {
     };
 
     useEffect(() => {
-        setShowedMoviesList(movies.slice(0, numberCards));
+
+        setShowedMoviesList(filteredMovie.slice(0, numberCards));
         defineNumberAddCards();
     }, [numberCards])
 
@@ -91,50 +114,54 @@ function Movies({ preloaderVisible }) {
         if (form == null ||
             // /^\s*$/.test(form) ||
             form.length === 0) {
-            alert("Поле не может быть пустым");
+            setInfoMessage('Нужно ввести ключевое слово')
             return true;
         } else {
             return false;
         }
     }
 
-    const handleSearch = (data) => {
+    function filter(searchKey, data) {
+        let resultFilter = [];
+        if (isCheckShotMovie) {
+            const shortMovies = data.filter(item => item.duration <= 40);
+            resultFilter = shortMovies.filter(item => item.nameRU.toLowerCase().includes(searchKey.toLowerCase()));
+        } else {
+            resultFilter = data.filter(item => item.nameRU.toLowerCase().includes(searchKey.toLowerCase()));
+        }
+        if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
+        else { setInfoMessage('') }
+        return resultFilter
+    }
 
+
+
+
+    const handleSearch = (searchKey) => {
         setNumberCards(0);
-       
-        if (!checkempty(data)) {
-            preloaderVisible(true);
-            movieApi.getMovies().then(movies => {
-                
-
-                if (isCheckShotMovie) {
-                    const shortMovies = movies.filter(item => item.duration <= 40);
-                    const resultFilter = shortMovies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
-                    if (resultFilter.length === 0) {
-                        setInfoMessage('Ничего не найдено')
-                    }
-                    else { setInfoMessage('') }
-                    setMovies(resultFilter);
-                    return
-                }
-                const resultFilter = movies.filter(item => item.nameRU.toLowerCase().includes(data.toLowerCase()));
-              
-                if (resultFilter.length === 0) { setInfoMessage('Ничего не найдено') }
-                else { setInfoMessage('') }
-                setMovies(resultFilter);
-                
-
-
-            }).catch((err) => {
-                console.log(err);
-                setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-            }).finally(() => {
-                preloaderVisible(false);
-            })
+        if (!checkempty(searchKey)) {
+            if (movies.length === 0) {
+                preloaderVisible(true);
+                movieApi.getMovies().then(res => {
+                    localStorage.setItem('movies', JSON.stringify(res));
+                    setMovies(res);
+                    setFilteredMovie(filter(searchKey, res));
+                    localStorage.setItem('filteredMovie', JSON.stringify(filter(searchKey, res)));
+                }).catch((err) => {
+                    console.log(err);
+                    setInfoMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+                }).finally(() => {
+                    preloaderVisible(false);
+                });
+            } else {
+                setFilteredMovie(filter(searchKey, movies));
+                localStorage.setItem('filteredMovie', JSON.stringify(filter(searchKey, movies)));
+            }
         }
     };
 
-   
+
+
     function handleClickBtn(data, isChecked) {
         if (!isChecked) {
             const movie = { country: data.country, director: data.director, duration: data.duration, year: data.year, description: data.description, image: `${imgUrl}${data.image.url}`, trailerLink: data.trailerLink, thumbnail: `${imgUrl}${data.image.formats.thumbnail.url}`, movieId: data.id, nameRU: data.nameRU, nameEN: data.nameEN, };
@@ -146,17 +173,14 @@ function Movies({ preloaderVisible }) {
         else {
             mainApi.deleteMovie(data).then(() => {
                 console.log("Фильм удален");
+                getSavedMovies();
                 setSavedMovies((state) => state.filter((c) => c._id !== data));
             }).catch((err) => console.log(err))
         }
 
     };
 
-    function getSavedMovies() {
-        mainApi.getMovies().then(savedMovies => {
-            setSavedMovies(savedMovies);
-        }).catch((err) => console.log(err))
-    }
+
 
 
     return (
@@ -176,7 +200,7 @@ function Movies({ preloaderVisible }) {
                 savedMovies={savedMovies}
                 infoMessage={infoMessage}
             />
-            <button onClick={handleClickAddCards} className={((numberCards+1) <= movies.length)? "movies__btn-more " : "movies__btn-more movies__btn-more_unvisible"  }>Ещё</button>
+            <button onClick={handleClickAddCards} className={((numberCards + 1) <= filteredMovie.length) ? "movies__btn-more " : "movies__btn-more movies__btn-more_unvisible"}>Ещё</button>
 
         </div>
     )

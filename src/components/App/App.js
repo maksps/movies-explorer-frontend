@@ -28,8 +28,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isPreloaderVisible, setPreloaderVisible] = useState(false);
-  const [isInfoTooltipOpen, setInfoTooltippOpen] = useState(false);
-  const [tooltipContent, setTooltipContent] = useState('')
+  // const [isInfoTooltipOpen, setInfoTooltippOpen] = useState(false);
+  const [errMessage, setErrMessage] = useState('')
 
   useEffect(() => {
     cbTokenCheck();
@@ -84,16 +84,14 @@ function App() {
         console.log('Вы успешно зарегистрировались');
       } else {
         console.log(res);
-        setTooltipContent("Что-то пошло не так!");
-        setInfoTooltippOpen(true);
+        setErrMessage("Что-то пошло не так!");
         setLoggedIn(false);
       }
 
 
     }).catch((err) => {
       console.log(err.message);
-      setTooltipContent(err.message);
-      setInfoTooltippOpen(true);
+      setErrMessage(err.message);
       setLoggedIn(false);
     }).finally(() => {
       setPreloaderVisible(false)
@@ -110,14 +108,12 @@ function App() {
         setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
         history.push("/profile");
       } else {
-        setTooltipContent("Что-то пошло не так!");
-        setInfoTooltippOpen(true);
+        setErrMessage("Что-то пошло не так!");
         setLoggedIn(false);
       }
     }).catch((err) => {
       console.log(err);
-      setTooltipContent(err.message);
-      setInfoTooltippOpen(true);
+      setErrMessage(err.message);
       setLoggedIn(false);
     }).finally(() => {
       setPreloaderVisible(false)
@@ -142,27 +138,19 @@ function App() {
     }).catch((err) => {
       console.log(err);
       console.log("Чтото пошло не так")
-      setTooltipContent(err.message);
-      setInfoTooltippOpen(true);
+      setErrMessage(err.message);
     }).finally(() => {
       setPreloaderVisible(false)
     })
   }
 
   function handleClickEscButton() {
-    localStorage.removeItem('jwt');
+    // localStorage.removeItem('jwt');
+    localStorage.clear();
     setLoggedIn(false);
     history.push("/signin");
 
   }
-
-  function closeInfoTootip() {
-    setInfoTooltippOpen(false)
-  }
-
-
-
-
 
 
   return (
@@ -227,12 +215,16 @@ function App() {
 
               <Login
                 onLogin={handleLogin}
+                errMessage= {errMessage}
+                setErrMessage={setErrMessage}
               />
             </PublicRoute>
 
             <PublicRoute  path="/signup" loggedIn={loggedIn}>
               <Register
                 onRegister={handleRegistration}
+                errMessage= {errMessage}
+                setErrMessage={setErrMessage}
               />
             </PublicRoute>
 
@@ -252,12 +244,12 @@ function App() {
           />
 
 
-          <InfoTooltip
+          {/* <InfoTooltip
             isOpen={isInfoTooltipOpen}
             onClose={closeInfoTootip}
-            text={tooltipContent}
+            // text={tooltipContent}
+          /> */}
 
-          />
       </CurrentUserContext.Provider>
     </div>
   );

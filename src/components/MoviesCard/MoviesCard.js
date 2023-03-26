@@ -5,11 +5,12 @@ import mainApi from "../../utils/MainApi";
 // "../../images/icon-movie-checked.svg"
 const imgUrl = 'https://api.nomoreparties.co/';
 
-// card.movie.image.url
+
 
 function MoviesCard(card) {
 
     const [isChecked, setChecked] = useState(false);
+    
 
     function handleClick() {
         if (!isChecked) {
@@ -27,14 +28,16 @@ function MoviesCard(card) {
         return;
     }
 
+
+
+
     function setChekedCard() {
         if (card.savedMovies.map((movie) => (movie.movieId)).includes(card.movie.id)) {
             setChecked(true);
-
         }
  
     }
-
+    // console.log(card.savedMovies)
     // const resultFilter = card.savedMovies.filter(item => item.movieId.includes(card.movie.id));
     // console.log(resultFilter)
     // const resultFilter =  card.savedMovies.filter(item => item.movieId === card.movie.id);
@@ -43,6 +46,7 @@ function MoviesCard(card) {
 
     useEffect(() => {
         if (!card.isSavedMovies) { setChekedCard() }
+        
     }, []);
 
 

@@ -3,33 +3,29 @@ import './FormComponent.css';
 import logo from '../../images/header-logo.svg';
 import { Link, useHistory } from 'react-router-dom';
 
-function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText, onSubmit, onNameInputVisible }) {
+function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText, onSubmit, onNameInputVisible, errMessage, setErrMessage }) {
     const [formState, setFormState] = useState({ name: '', email: '', password: '', nameValid: onNameInputVisible ? false : true, emailValid: false, passwordValid: false })
     const [validationMessage, setValidationMessage] = useState({ name: '', email: '', password: '' });
-    const [onButtonDisable, SetButtonnDisable] = useState(true);
-    const history = useHistory();
-
+    const [onButtonDisable, setButtonnDisable] = useState(true);
+    
+    
 
     useEffect(() => {
         if (formState.nameValid && formState.emailValid && formState.passwordValid) {
-            SetButtonnDisable(false)
+            setButtonnDisable(false)
         } else {
-            SetButtonnDisable(true)
+            setButtonnDisable(true)
         }
     }, [formState]);
 
-
-    // function handleInput(e) {
-    //     const { name, value, validationMessage, validity } = e.target;
-    //     setFormState({ ...formState, [name]: value, [`${name}Valid`]: validity.valid});
-    //     setValidationMessage({ [name]: validationMessage });
-    // }
+    
 
 
     const handleInput = useCallback((e) => {
         const { name, value, validationMessage, validity } = e.target;
         setFormState({ ...formState, [name]: value, [`${name}Valid`]: validity.valid });
         setValidationMessage({ [name]: validationMessage });
+        setErrMessage('')
     }, [formState])
 
 
@@ -43,7 +39,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
     return (
         <div className="formComponent">
             <div className="formComponent__container">
-                <img className="formComponent__logo" src={logo} alt="логотип"  />
+                <img className="formComponent__logo" src={logo} alt="логотип" />
                 <h2 className="formComponent__title">{titleText}</h2>
                 <form className="formComponent__form" onSubmit={handleSubmit} noValidate>
                     <div className="input-container">
@@ -63,6 +59,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
                             <span className="inputLabel__input-error">{validationMessage.password}</span>
                         </label>
                     </div>
+                    <h3 className="formComponent__errMessage">{errMessage}</h3>
                     <button className={onButtonDisable ? 'formComponent__btn-save formComponent__btn-save_inactive' : 'formComponent__btn-save '} type="submit" disabled={onButtonDisable} >{btnSubmitText} </button>
                 </form>
 

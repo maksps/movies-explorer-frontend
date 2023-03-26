@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './Login.css';
 import FormComponent from '../FormComponent/FormComponent.js';
 
-function Login({ onLogin }) {
+function Login({ onLogin, errMessage, setErrMessage }) {
 
         return (
 
@@ -14,6 +14,8 @@ function Login({ onLogin }) {
             navLinkText={'Регистрация'}
             onSubmit={onLogin}
             onNameInputVisible={false}
+            errMessage={errMessage}
+            setErrMessage={setErrMessage}
         />
 
     )
