@@ -45,7 +45,7 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
                     <div className="input-container">
                         <label className={onNameInputVisible ? `inputLabel` : `inputLabel_unvisible`}>
                             <span className="inputLabel__title">Имя</span>
-                            <input className="inputLabel__input" value={formState.name || ''} onChange={handleInput} name="name" type="text" placeholder="Имя" minLength="2" maxLength="40" required={onNameInputVisible ? true : false} autoComplete="off" ></input>
+                            <input className="inputLabel__input" value={formState.name || ''} onChange={handleInput} name="name" type="text" placeholder="Имя" minLength="2" maxLength="40" required={onNameInputVisible ? true : false} pattern="^[а-яА-ЯёЁa-zA-Z0-9 ]+$" autoComplete="off" ></input>
                             <span className="inputLabel__input-error">{validationMessage.name}</span>
                         </label>
                         <label className="inputLabel">
@@ -56,10 +56,10 @@ function FormComponent({ titleText, btnSubmitText, navText, navLink, navLinkText
                         <label className="inputLabel">
                             <span className="inputLabel__title">Пароль</span>
                             <input className="inputLabel__input" value={formState.password || ''} onChange={handleInput} type="password" name="password" placeholder="Пароль" minLength="4" autoComplete="off" required></input>
-                            <span className="inputLabel__input-error">{validationMessage.password}</span>
+                            <span className="inputLabel__input-error">{validationMessage.password? validationMessage.password: errMessage}</span>
                         </label>
                     </div>
-                    <h3 className="formComponent__errMessage">{errMessage}</h3>
+                    {/* <h3 className="formComponent__errMessage">{errMessage}</h3> */}
                     <button className={onButtonDisable ? 'formComponent__btn-save formComponent__btn-save_inactive' : 'formComponent__btn-save '} type="submit" disabled={onButtonDisable} >{btnSubmitText} </button>
                 </form>
 
