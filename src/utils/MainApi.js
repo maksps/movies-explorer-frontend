@@ -93,8 +93,8 @@ class MainApi {
 
 const mainApi = new MainApi(
     {
-        // url:'http://api.maksps.nomoredomains.rocks/'
-        url: 'http://localhost:3000/',
+        url:'https://api.maksps.nomoredomains.work/'
+        // url: 'http://localhost:3000/',
     }
 );
 
