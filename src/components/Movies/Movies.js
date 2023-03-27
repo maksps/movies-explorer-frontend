@@ -21,10 +21,10 @@ function Movies({ preloaderVisible }) {
     const [infoMessage, setInfoMessage] = useState('');
     const [numberCards, setNumberCards] = useState(0);
     const [numberAddCards, setNumberAddCards] = useState(0);
-    const [screenWidth, setscreenWidth] = useState(window.innerWidth);
+    const [screenWidth, setscreenWidth] = useState(0);
     const [showedMoviesList, setShowedMoviesList] = useState([]);
-
-
+    
+    
     function getSavedMovies() {
         mainApi.getMovies().then(savedMovies => {
             setSavedMovies(savedMovies);
@@ -33,6 +33,7 @@ function Movies({ preloaderVisible }) {
     }
 
     useEffect(() => {
+        // setNumberCards(0);
         setscreenWidth(window.innerWidth);
         getSavedMovies();
         if (localStorage.getItem('filteredMovie')) {
@@ -70,9 +71,11 @@ function Movies({ preloaderVisible }) {
     };
 
     useEffect(() => {
+
         setShowedMoviesList(filteredMovie.slice(0, numberCards));
         defineNumberAddCards();
-    }, [numberCards]);
+    }, [numberCards])
+
 
 
     const defineNumberAddCards = () => {
@@ -84,7 +87,6 @@ function Movies({ preloaderVisible }) {
                 return setNumberAddCards(8);
             }
             else {
-                console.log('жопа', numberAddCards);
                 return setNumberAddCards(5);
             }
         }
@@ -129,7 +131,7 @@ function Movies({ preloaderVisible }) {
 
 
     const handleSearch = (searchKey) => {
-        // setNumberCards(0);
+        setNumberCards(0);
         if (!checkempty(searchKey)) {
             if (movies.length === 0) {
                 preloaderVisible(true);
