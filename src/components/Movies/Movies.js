@@ -21,7 +21,7 @@ function Movies({ preloaderVisible }) {
     const [infoMessage, setInfoMessage] = useState('');
     const [numberCards, setNumberCards] = useState(0);
     const [numberAddCards, setNumberAddCards] = useState(0);
-    const [screenWidth, setscreenWidth] = useState(0);
+    const [screenWidth, setscreenWidth] = useState(window.innerWidth);
     const [showedMoviesList, setShowedMoviesList] = useState([]);
     
     
