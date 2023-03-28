@@ -2,13 +2,12 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ onChangeProfile, onClickEscButton, errMessage, setErrMessage }) {
+function Profile({ onChangeProfile, onClickEscButton, infoMessage, setInfoMessage }) {
 
     const currentUser = useContext(CurrentUserContext);
     const [formState, setFormState] = useState({ name: currentUser.name, email: currentUser.email, nameValid: true, emailValid: true })
     const [validationMessage, setValidationMessage] = useState({ name: '', email: '' });
     const [onButtonDisable, setButtonnDisable] = useState(false);
-
     useEffect(() => {
         if (formState.nameValid && formState.emailValid) {
             setButtonnDisable(false)
@@ -17,11 +16,13 @@ function Profile({ onChangeProfile, onClickEscButton, errMessage, setErrMessage 
         }
     }, [formState]);
 
+    console.log(infoMessage);
+
     const handleInput = useCallback((e) => {
         const { name, value, validationMessage, validity } = e.target;
         setFormState({ ...formState, [name]: value, [`${name}Valid`]: validity.valid });
         setValidationMessage({ [name]: validationMessage });
-        setErrMessage('')
+        setInfoMessage('')
     }, [formState])
 
     function handleSubmit(e) {
@@ -35,11 +36,10 @@ function Profile({ onChangeProfile, onClickEscButton, errMessage, setErrMessage 
     }
 
 
-
+    
 
     return (
         <div className="profile">
-            {/* <div className="profile__container"> */}
             <h3 className="profile__title">Привет, {currentUser.name}!</h3>
             <form className="profile__form" onSubmit={handleSubmit}>
                 <label className="inputField">
@@ -55,7 +55,7 @@ function Profile({ onChangeProfile, onClickEscButton, errMessage, setErrMessage 
                         <span className="inputFild__title">E-mail</span>
                         <input className="inputField__input" value={formState.email || currentUser.email} onChange={handleInput} name="email" type="email" />
                     </div>
-                    <span className="inputField__input-error">{validationMessage.email ? validationMessage.email : errMessage}</span>
+                    <span className="inputField__input-error">{validationMessage.email ? validationMessage.email : infoMessage}</span>
                 </label>
                 <nav className="profile__nav">
                     <button className={onButtonDisable ? 'profile__button profile__button_type_edit-inactive' : 'profile__button profile__button_type_edit'} type="submit" disabled={onButtonDisable} >Редактировать</button>

@@ -26,7 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isPreloaderVisible, setPreloaderVisible] = useState(false);
-  const [errMessage, setErrMessage] = useState('')
+  const [infoMessage, setInfoMessage] = useState('')
 
   useEffect(() => {
     cbTokenCheck();
@@ -49,7 +49,7 @@ function App() {
     }
     return
   };
- 
+
 
 
 
@@ -83,14 +83,14 @@ function App() {
         console.log('Вы успешно зарегистрировались');
       } else {
         console.log(res);
-        setErrMessage("Что-то пошло не так!");
+        setInfoMessage("Что-то пошло не так!");
         setLoggedIn(false);
       }
 
 
     }).catch((err) => {
       console.log(err.message);
-      setErrMessage(err.message);
+      setInfoMessage(err.message);
       setLoggedIn(false);
     }).finally(() => {
       setPreloaderVisible(false)
@@ -107,12 +107,12 @@ function App() {
         setCurrentUser({ id: res.user._id, email: res.user.email, name: res.user.name });
         history.push("/movies");
       } else {
-        setErrMessage("Что-то пошло не так!");
+        setInfoMessage("Что-то пошло не так!");
         setLoggedIn(false);
       }
     }).catch((err) => {
       console.log(err);
-      setErrMessage(err.message);
+      setInfoMessage(err.message);
       setLoggedIn(false);
     }).finally(() => {
       setPreloaderVisible(false)
@@ -133,11 +133,10 @@ function App() {
     setPreloaderVisible(true);
     mainApi.editProfile({ name, email }).then((res) => {
       setCurrentUser({ id: res._id, email: res.email, name: res.name });
-      console.log("Данные пользователя обновлены!");
+      setInfoMessage("Данные пользователя обновлены!");
     }).catch((err) => {
-      
-      console.log("Чтото пошло не так")
-      setErrMessage(err.message);
+      console.log(err.message)
+      setInfoMessage(err.message);
     }).finally(() => {
       setPreloaderVisible(false)
     })
@@ -154,94 +153,94 @@ function App() {
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
-          <Switch>
-            <Route exact path="/">
-              <>
-                {loggedIn ?<HeaderMovie
-                  logo={logoHeader}
-                /> : <Header
+        <Switch>
+          <Route exact path="/">
+            <>
+              {loggedIn ? <HeaderMovie
+                logo={logoHeader}
+              /> : <Header
                 logo={logoHeader}
               />}
-                <Main />
-                <Footer />
-              </>
-            </Route>
+              <Main />
+              <Footer />
+            </>
+          </Route>
 
-            <ProtectedRoute path="/movies" loggedIn={loggedIn}>
+          <ProtectedRoute path="/movies" loggedIn={loggedIn}>
 
-              <>
-                <HeaderMovie
-                  logo={logoHeader}
-                />
-                <Preloader
-                  isVisible={isPreloaderVisible}
-                />
-                <Movies
-                  preloaderVisible={setPreloaderVisible}
-                />
-                <Footer />
-                <Preloader
-                  isVisible={isPreloaderVisible}
-                />
-              </>
-            </ProtectedRoute>
-
-            <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
-              <>
-                <HeaderMovie
-                  logo={logoHeader}
-                />
-                <SavedMovies
-                  preloaderVisible={setPreloaderVisible}
-                  loggedIn={loggedIn}
-                />
-                <Footer />
-              </>
-            </ProtectedRoute>
-
-            <ProtectedRoute path="/profile" loggedIn={loggedIn}>
-              <>
-                <HeaderMovie
-                  logo={logoHeader}
-                />
-                <Profile
-                  onChangeProfile={handleChangeProfile}
-                  onClickEscButton={handleClickEscButton}
-                  errMessage= {errMessage}
-                setErrMessage={setErrMessage}
-                />
-              </>
-            </ProtectedRoute>
-
-            <PublicRoute path="/signin" loggedIn={loggedIn}>
-
-              <Login
-                onLogin={handleLogin}
-                errMessage= {errMessage}
-                setErrMessage={setErrMessage}
+            <>
+              <HeaderMovie
+                logo={logoHeader}
               />
-            </PublicRoute>
-
-            <PublicRoute  path="/signup" loggedIn={loggedIn}>
-              <Register
-                onRegister={handleRegistration}
-                errMessage= {errMessage}
-                setErrMessage={setErrMessage}
+              <Preloader
+                isVisible={isPreloaderVisible}
               />
-            </PublicRoute>
-
-            <Route path="/*">
-              <Error
-                errorCode={404}
-                errorMessage={'Страница не найдена'}
+              <Movies
+                preloaderVisible={setPreloaderVisible}
               />
-            </Route>
+              <Footer />
+              <Preloader
+                isVisible={isPreloaderVisible}
+              />
+            </>
+          </ProtectedRoute>
 
-          </Switch>
+          <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
+            <>
+              <HeaderMovie
+                logo={logoHeader}
+              />
+              <SavedMovies
+                preloaderVisible={setPreloaderVisible}
+                loggedIn={loggedIn}
+              />
+              <Footer />
+            </>
+          </ProtectedRoute>
 
-          <Preloader
-            isVisible={isPreloaderVisible}
-          />
+          <ProtectedRoute path="/profile" loggedIn={loggedIn}>
+            <>
+              <HeaderMovie
+                logo={logoHeader}
+              />
+              <Profile
+                onChangeProfile={handleChangeProfile}
+                onClickEscButton={handleClickEscButton}
+                infoMessage={infoMessage}
+                setInfoMessage={setInfoMessage}
+              />
+            </>
+          </ProtectedRoute>
+
+          <PublicRoute path="/signin" loggedIn={loggedIn}>
+
+            <Login
+              onLogin={handleLogin}
+              infoMessage={infoMessage}
+              setInfoMessage={setInfoMessage}
+            />
+          </PublicRoute>
+
+          <PublicRoute path="/signup" loggedIn={loggedIn}>
+            <Register
+              onRegister={handleRegistration}
+              infoMessage={infoMessage}
+              setInfoMessage={setInfoMessage}
+            />
+          </PublicRoute>
+
+          <Route path="/*">
+            <Error
+              errorCode={404}
+              errorMessage={'Страница не найдена'}
+            />
+          </Route>
+
+        </Switch>
+
+        <Preloader
+          isVisible={isPreloaderVisible}
+        />
 
       </CurrentUserContext.Provider>
     </div>

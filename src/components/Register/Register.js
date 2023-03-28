@@ -2,7 +2,7 @@ import React from "react";
 import './Register.css';
 import FormComponent from '../FormComponent/FormComponent.js';
 
-function Register({ onRegister, errMessage, setErrMessage }) {
+function Register({ onRegister, infoMessage, setInfoMessage }) {
 
     return (
         <FormComponent
@@ -13,8 +13,8 @@ function Register({ onRegister, errMessage, setErrMessage }) {
             navLinkText={'Войти'}
             onNameInputVisible={true}
             onSubmit={onRegister}
-            errMessage={errMessage}
-            setErrMessage={setErrMessage}
+            infoMessage={infoMessage}
+            setInfoMessage={setInfoMessage}
         >
 
         </FormComponent>
