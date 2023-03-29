@@ -13,14 +13,15 @@ function Profile({
   });
   const [validationMessage, setValidationMessage] = useState({ name: '', email: '' });
   const [onButtonDisable, setButtonnDisable] = useState(false);
+
   useEffect(() => {
     if (formState.nameValid && formState.emailValid &&
-       ((currentUser.name !== formState.name) || (currentUser.email !== formState.email))) {
+      ((currentUser.name !== formState.name) || (currentUser.email !== formState.email))) {
       setButtonnDisable(false);
     } else {
       setButtonnDisable(true);
     }
-  }, [formState]);
+  }, [formState, currentUser]);
 
   const handleInput = useCallback((e) => {
     const {
