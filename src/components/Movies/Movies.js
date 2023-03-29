@@ -23,8 +23,9 @@ function Movies({ preloaderVisible }) {
     const [numberAddCards, setNumberAddCards] = useState(0);
     const [screenWidth, setscreenWidth] = useState(window.innerWidth);
     const [showedMoviesList, setShowedMoviesList] = useState([]);
-    
-    
+    const [searchKey, setSearchKey] = useState('');
+
+
     function getSavedMovies() {
         mainApi.getMovies().then(savedMovies => {
             setSavedMovies(savedMovies);
@@ -33,7 +34,6 @@ function Movies({ preloaderVisible }) {
     }
 
     useEffect(() => {
-        // setNumberCards(0);
         setscreenWidth(window.innerWidth);
         getSavedMovies();
         if (localStorage.getItem('filteredMovie')) {
@@ -45,6 +45,11 @@ function Movies({ preloaderVisible }) {
         if (localStorage.getItem('savedMovies')) {
             setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
         };
+        if (localStorage.getItem('searchKey')) {
+            setSearchKey(localStorage.getItem('searchKey'));
+        };
+        setNumberCards(numberCards + numberAddCards);
+
     }, []);
 
     useEffect(() => {
@@ -129,9 +134,18 @@ function Movies({ preloaderVisible }) {
 
 
 
+    useEffect(() => {
+        if (movies.length !== 0) {
+            setFilteredMovie(filter(searchKey, movies));
+            localStorage.setItem('filteredMovie', JSON.stringify(filter(searchKey, movies)));
+        }
+    }, [isCheckShotMovie])
+
+
 
     const handleSearch = (searchKey) => {
-        setNumberCards(0);
+        defineNumberAddCards();
+        localStorage.setItem('searchKey', searchKey);
         if (!checkempty(searchKey)) {
             if (movies.length === 0) {
                 preloaderVisible(true);

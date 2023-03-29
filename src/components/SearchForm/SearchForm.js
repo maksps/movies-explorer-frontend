@@ -2,13 +2,14 @@ import React, { useRef, useEffect, useState } from "react";
 import './SearchForm.css'
 
 
-function SearchForm({ onSubmit, onCheckboxCheked }) {
+function SearchForm({ onSubmit, onCheckboxCheked}) {
     const searchFormRef = useRef();
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem('CheckboxCheked')) {
-            setChecked(JSON.parse(localStorage.getItem('CheckboxCheked'))); 
+            setChecked(JSON.parse(localStorage.getItem('CheckboxCheked')));
+            onCheckboxCheked(JSON.parse(localStorage.getItem('CheckboxCheked'))); 
         }
     }, [])
 
@@ -24,11 +25,13 @@ function SearchForm({ onSubmit, onCheckboxCheked }) {
         onCheckboxCheked(!checked);
         if (checked) {
             localStorage.setItem('CheckboxCheked', false);
-            return onCheckboxCheked(false)
+            onCheckboxCheked(false);
+            return
         }
         else {
             localStorage.setItem('CheckboxCheked', true);
-            return onCheckboxCheked(true)
+            onCheckboxCheked(true);
+            return
         }
     }
    
