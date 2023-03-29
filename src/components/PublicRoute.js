@@ -1,15 +1,15 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import React from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
 function PublicRoute({ loggedIn, children }) {
-    return (
-        <Route>
-            {
-                () => loggedIn === false ? children : <Redirect to="/movies" />
+  return (
+    <Route>
+      {
+                () => (loggedIn === false ? children : <Redirect to="/movies" />)
             }
-        </Route>
+    </Route>
 
-    )
+  );
 }
 
-export default PublicRoute
+export default PublicRoute;
