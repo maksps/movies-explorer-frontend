@@ -20,7 +20,7 @@ function Movies({ preloaderVisible }) {
   const [screenWidth, setscreenWidth] = useState(window.innerWidth);
   const [showedMoviesList, setShowedMoviesList] = useState([]);
   const [searchKey, setSearchKey] = useState('');
-
+ 
   function getSavedMovies() {
     mainApi.getMovies().then((savedMovies) => {
       setSavedMovies(savedMovies);
@@ -139,7 +139,6 @@ function Movies({ preloaderVisible }) {
       } else {
         setFilteredMovie(filter(searchKey, movies));
         localStorage.setItem('filteredMovie', JSON.stringify(filter(searchKey, movies)));
-        console.log(filter(searchKey, movies));
       }
     }
   };

@@ -4,11 +4,10 @@ import './SearchForm.css';
 function SearchForm({ onSubmit, onCheckboxCheked }) {
   const searchFormRef = useRef();
   const [checked, setChecked] = useState(false);
-
   useEffect(() => {
-    if (localStorage.getItem('CheckboxCheked')) {
-      setChecked(JSON.parse(localStorage.getItem('CheckboxCheked')));
-      onCheckboxCheked(JSON.parse(localStorage.getItem('CheckboxCheked')));
+    if (localStorage.getItem('checkboxCheked')) {
+      setChecked(JSON.parse(localStorage.getItem('checkboxCheked')));
+      onCheckboxCheked(JSON.parse(localStorage.getItem('checkboxCheked')));
     }
   }, []);
 
@@ -23,10 +22,10 @@ function SearchForm({ onSubmit, onCheckboxCheked }) {
     setChecked(!checked);
     onCheckboxCheked(!checked);
     if (checked) {
-      localStorage.setItem('CheckboxCheked', false);
+      localStorage.setItem('checkboxCheked', false);
       onCheckboxCheked(false);
     } else {
-      localStorage.setItem('CheckboxCheked', true);
+      localStorage.setItem('checkboxCheked', true);
       onCheckboxCheked(true);
     }
   }
